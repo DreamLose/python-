@@ -1,0 +1,20 @@
+init 0  : 关机
+exit: 退出
+ls
+ls -l
+ls -l /boot
+ls -a : 查看隐藏文件
+ls -l -a :(ls -la)
+
+whoami  : 查看当前登陆用户
+who: 
+
+useradd: 新加用户
+passwd : 设置密码
+
+date: 时间
+cal : 日历
+
+cp: 拷贝 
+
+
