@@ -6,6 +6,8 @@ ls -l /boot
 ls -a : 查看隐藏文件
 ls -l -a :(ls -la)
 
+mkdir : 创建目录
+touch : 创建文件
 whoami  : 查看当前登陆用户
 who: 
 
@@ -17,4 +19,14 @@ cal : 日历
 
 cp: 拷贝 
 
+useradd : 新增用户
+userdel : 删除用户
+id [用户名]: 查看
+usermod  : 修改用户信息
+passwd -l :锁定账户
+passwd -u : 解锁账户
 
+usermod -d : 可以修改家目录,但是只是修改的passwd文件内容,想要修改成功,必须在home下新建家目录
+usermod -G : 添加到组(会覆盖原组)
+usermod -aG : 追加添加到组
+groupmod : 修改组信息
