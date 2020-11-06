@@ -1,0 +1,15 @@
+bios-> MBR -> boot loader -> kernel
+ -> init process
+
+ boot loader 加密.禁止进入单用户
+
+grub 加密
+grub-md5-crypt
+
+ vim /etc/grub.conf
+ 插入到title上面
+ password = 123 
+ password --md5 $[加密字符串]
+
+bios 加密
+进入bios -》安全 -〉 设置密码
