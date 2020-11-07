@@ -1,0 +1,5 @@
+free
+free -m
+free -h
+ps aux | grep 'init' | grep -v 'grep'
+kill -9 [进程id] : 强制杀死
