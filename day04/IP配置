@@ -1,0 +1,35 @@
+1.查看ip配置
+   ifconfig 
+2.临时生效:ifconfig etho 192.168.24.11/24
+3.永久生效
+	a.vim /etc/sysconfig/network-scripts/ifcfg-eth0
+	b.service network restart 
+	c.service NetworkManager stop : 关闭网络服务
+	d.chkconfig NetworkManager off : 设置开机就停止网络服务
+
+	ifup /ifdown eth0
+
+
+查看网关
+route -n
+配置网关
+route add default gw 192.168.0.1
+
+配置dns
+vim /etc/resolv.conf
+
+
+如果还是不能ping通网络,清空防火墙规则
+iptables -F /service iptables stop
+
+
+域名解析顺序 
+1./etc/hosts 然后才是DNS /etc/resolv.conf
+
+
+
+临时修改主机名
+hostname [名称]
+
+永久修改主机名
+vim /etc/sysconfig/network			

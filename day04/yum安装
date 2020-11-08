@@ -1,0 +1,17 @@
+1.添加配置本地源文件
+   vim /etc/yum.repos.d/local.repo
+
+local.repo文件固定格式
+
+	[local]
+	name=local yum
+	baseurl=file://[本地安装包路径](本地源) //(http://网络源)
+	enabled=1
+	gpgcheck=0
+
+
+2.yum install [安装包名]
+
+
+
+
