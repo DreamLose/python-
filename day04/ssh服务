@@ -1,3 +1,23 @@
 服务端启动ssh服务
-service sshd status
-		
+service sshd status 查看ssh是否开启
+service sshd start 开启ssh服务
+
+ssh 配置文件:
+vim /etc/ssh/sshd_config	
+
+0--1024 为系统常用端口号
+
+解决连接ssh慢的问题
+
+vim /etc/ssh/sshd_config
+查找/NDS
+ 修改。UseDNS 为 no 
+
+
+ 清除防火墙,并关闭
+ 查看防火墙规则: iptables -L
+ 清除: iptables -F
+暂停: service iptables stop
+开机关闭: chkconfig iptables off
+
+
