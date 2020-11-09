@@ -9,15 +9,17 @@ vim /etc/ssh/sshd_config
 
 解决连接ssh慢的问题
 
-vim /etc/ssh/sshd_config
-查找/NDS
- 修改。UseDNS 为 no 
+1.vim /etc/ssh/sshd_config
+	查找/NDS
+	 修改。UseDNS 为 no 
 
-
- 清除防火墙,并关闭
- 查看防火墙规则: iptables -L
- 清除: iptables -F
-暂停: service iptables stop
-开机关闭: chkconfig iptables off
+2. 添加自己主机名的解析
+修改主机名称 :/etc/sysconfig/network
+添加主机名称解析: vim /etc/hosts	
+	 清除防火墙,并关闭
+	 查看防火墙规则: iptables -L
+	 清除: iptables -F
+	暂停: service iptables stop
+	开机关闭: chkconfig iptables off
 
 
