@@ -1,3 +1,5 @@
+yum 基于python写的
+
 1.添加配置本地源文件
    vim /etc/yum.repos.d/local.repo
 
@@ -11,7 +13,34 @@ local.repo文件固定格式
 
 
 2.yum install [安装包名]
+yum reinstall 重新安装
+
+	清理缓存
+	yum clean all
+
+	yum erase : 卸除软件包
+
+	yum makecache : 制作缓存
+
+3.自定义yum源
+
+安装createrepo
+
+mkdir /test   :建测试目录
+
+cp 软件包 /test
+
+createrepo /test : 建立依赖关系
+
+修改配置文件
+/etc/yum.repos.d/local.repos
+
+baseurl=file:///test
 
 
 
+//安装组
+4. yum grouplist 
 
+yum groupinstall '开发工具'
+https://www.python.org/ftp/python/3.9.0/Python-3.9.0.tgz

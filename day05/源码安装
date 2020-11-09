@@ -1,0 +1,33 @@
+安装 python 源码
+
+准备
+
+1.gcc glibc : 安装 yum install gcc-* glibc-* -y
+
+wget: 下载软件包 
+
+
+源码安装: 下载 --解包 -- 运行configure 脚本,添加编译参数 ----- 编译(gcc glibc) make --make install (安装)
+1. wget [源码链接]
+2. tar xvf  解包
+3. 执行 configure 脚本,添加编译参数
+cd Python-3.9.0
+./configure --prefix=/usr/local/python3.9
+例如。--prefix 指定安装路径
+4. 编译
+make
+5.安装
+make install
+
+
+
+
+which [命令名称] : 查看命令路径
+
+PATH: 环境变量
+临时设置环境变量: 1.查看PATH路径。echo $APTH;
+
+
+永久修改:vim /etc/profile
+将PATH=全部路径写到最后
+然后在导入 export PATH
