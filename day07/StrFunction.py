@@ -1,5 +1,5 @@
 # 字符串掌握： join split find   strip upper lower
-
+# 字符串一旦创建就不可修改，一旦修改或者拼接都会重新生成新的字符串
 """
 -----------------字符串函数
 """
@@ -85,6 +85,10 @@ print(s)
 print("------------------isnumeric")
 s = testStr.isnumeric()
 print(s)
+# 简述位，字节的关系
+    # 8位 = 1个字节
+
+# "李杰" ==》 utf8 ：6个字节  gbk： 4个字节
 
 
 # expandtabs 断句，6个一组，不足六个\t会补足（可以用来制作表格）
@@ -181,7 +185,15 @@ testStr = "aLxeD"
 v = testStr.swapcase()
 print(v)
 
-
+print('----------replace')
+# replace() 方法把字符串中的 old（旧字符串） 替换成 new(新字符串)，如果指定第三个参数max，则替换不超过 max 次
+# str.replace(old, new[, max])
+test = "this is string example....wow!!! this is really string";
+v = test.replace("is","was")
+print(v)
+v = test.replace("is","was",3)
+print(v)
+print('----------replace---end')
 """
  ----------------灰魔法（几乎所有数据类型都可以用）
 
@@ -204,3 +216,15 @@ name = "世界是我的"
 age = "1800"
 info = name + age
 print(info)
+# 0 ----99 创建连续的数字
+v = range(100)
+for item in v:
+    print(item)
+print(v)
+# 0 ----99 创建不连续的数字 步长5
+v = range(0,100,5)
+for item in v:
+    print(item)
+
+a = "——".join(['name','age'])
+print(a)

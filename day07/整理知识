@@ -1,0 +1,10 @@
+一： 数字
+int()
+二：字符串
+replace/find/join/strip/startswith/split/upper/lower/format/
+三：列表
+appen/extend/insert
+索引/切片/循环
+四：元组
+五：字典
+get/update/keys/values/items
