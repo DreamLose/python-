@@ -1,5 +1,6 @@
 # 增删改查
 # 查询
+import os
 def fetch(data):
     print("查询功能")
     print("\033[1;43m用户数据是\033[0m",data)
@@ -11,6 +12,10 @@ def add():
 # 修改
 def change():
     print("修改功能")
+    # 先读在写
+    # os.rename("源文件","源文件.bak")
+    # os.rename("修改后文件", "源文件")
+    # os.remove('源文件.bak')
     pass
 # 删除
 def delete():
