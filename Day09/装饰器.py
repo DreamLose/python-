@@ -97,30 +97,37 @@ user_list = [{"username":'alex',"passWd":"123"},
              {"username":'xiaohong',"passWd":"223"},
              {"username":'xiaoxiao',"passWd":"343"},]
 user_dic = {"username":'alex',"login":False}
-def jiaoyan(func):
-    def wrapper(*args,**kwargs):
-        print("开始校验")
-        if user_dic['username'] and user_dic['login']:
-            res = func(*args, **kwargs)
-            return  res
-        userName = input("请输入用户名：").strip()
-        passWd = input("请输入密码：").strip()
-        for user_dict in user_list:
-            if userName == user_dict["username"] and passWd == user_dict["passWd"]:
-                user_dic["username"] = userName
-                user_dic['login'] = True
+
+def authTpye(auth_type="filedb"):
+    def jiaoyan(func):
+        def wrapper(*args,**kwargs):
+            print("认证类型 ：%s" %auth_type)
+            if user_dic['username'] and user_dic['login']:
                 res = func(*args, **kwargs)
-                return res
-        return "用户名或者密码错误。。。。"
-    return wrapper
-@jiaoyan
+                return  res
+            userName = input("请输入用户名：").strip()
+            passWd = input("请输入密码：").strip()
+            for user_dict in user_list:
+                if userName == user_dict["username"] and passWd == user_dict["passWd"]:
+                    user_dic["username"] = userName
+                    user_dic['login'] = True
+                    res = func(*args, **kwargs)
+                    return res
+            return "用户名或者密码错误。。。。"
+        return wrapper
+    return jiaoyan
+
+@authTpye("fileDb")
 def index():
     print("欢迎登陆")
 
-@jiaoyan
+@authTpye("fileDb")
 def home(name):
     print("欢迎登陆 %s" %name)
 
 index()
 home("lala")
+
+# home = authTpye("filed")
+# home("hhaha")
 
