@@ -127,8 +127,12 @@ print(res)
 #  + :分组
 res = re.findall("(abc)+","abcccc")
 print(res)
+# 优先取组里的abc
 res = re.findall("(abc)+","abcabc")
 print(res)
+# 取消优先级
+res = re.findall("(?:abc)+","abcabc")
+print("======",res)
 # (?P<>) :固定写法
 
 # search 只会找一个 返回的是一个对象
