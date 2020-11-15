@@ -132,6 +132,8 @@ print(res)
 # (?P<>) :固定写法
 
 # search 只会找一个 返回的是一个对象
+
+
 res = re.search("(?P<name>[a-z]+)\d+","alex12xiaocang34")
 print(res.group())
 print(res.group("name"))
@@ -139,6 +141,9 @@ print(res.group("name"))
 res = re.search("(?P<name>[a-z]+)(?P<age>\d+)","alex12xiaocang34")
 print(res.group())
 print(res.group("age"))
+# 12+(34*6+2-5*(2-1)+(4*4+4)) ：首先匹配前面一个括号
+res = re.search("\([^()]+\)","12+(34*6+2-5*(2-1)+(4*4+4))")
+print(res.group())
 print('==========')
 # re 模块下常用方法
 # match 只会从字符串开始匹配
