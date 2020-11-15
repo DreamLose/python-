@@ -1,0 +1,22 @@
+<data>
+    <country name="liechten">
+        <rank updated="yes">2</rank>
+        <year>2008</year>
+        <gdppc>141000</gdppc>
+        <neighbor name="Austria" direction="E"/>
+        <neighbor name="Switzerland" direction="W"/>
+    </country>
+     <country name="Singapore">
+        <rank updated="yes">5</rank>
+        <year>2011</year>
+        <gdppc>3231231</gdppc>
+        <neighbor name="Malaysia" direction="N"/>
+    </country>
+    <country name="Panama">
+        <rank updated="yes">69</rank>
+        <year>2011</year>
+        <gdppc>313121</gdppc>
+        <neighbor name="Costa Rica" direction="W"/>
+        <neighbor name="Colombia" direction="E"/>
+    </country>
+</data>
