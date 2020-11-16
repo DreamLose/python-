@@ -3,6 +3,8 @@ import time
 
 import sys,os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__ )))
+print("abspath===",os.path.abspath(__file__ ))
+print("res===",BASE_DIR)
 sys.path.append(BASE_DIR)
 from 模块.module import cal
 print(os.path.dirname(os.path.dirname(__file__)))

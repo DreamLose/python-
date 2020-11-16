@@ -19,11 +19,25 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="12db0317-bbb2-4fad-a8e3-d647970ea17a" name="Default Changelist" comment="" />
+    <list default="true" id="12db0317-bbb2-4fad-a8e3-d647970ea17a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/类相关.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/面向对象.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../day10/内置模块/计算器练习.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../day10/内置模块/hashlib_module.py" beforeDir="false" afterPath="$PROJECT_DIR$/../day10/内置模块/hashlib_module.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../day10/模块.py" beforeDir="false" afterPath="$PROJECT_DIR$/../day10/模块.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -41,7 +55,95 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.类属性与实例属性混合">
+    <configuration name="面向对象" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="Day11" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="$USER_HOME$/venv/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/面向对象.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="类相关" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="Day11" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="$USER_HOME$/venv/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/类相关.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="实例属性增删改查" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="Day11" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="$USER_HOME$/venv/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/实例属性增删改查.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="类属性与实例属性混合" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="Day11" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="$USER_HOME$/venv/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/类属性与实例属性混合.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="Day11" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -74,6 +176,7 @@
       <option name="presentableId" value="Default" />
       <updated>1605411657462</updated>
       <workItem from="1605411658641" duration="21000" />
+      <workItem from="1605486999471" duration="7623000" />
     </task>
     <servers />
   </component>
@@ -90,6 +193,53 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state width="1358" height="175" key="GridCell.Tab.0.bottom" timestamp="1605496613532">
+      <screen x="0" y="23" width="1440" height="806" />
+    </state>
+    <state width="1358" height="175" key="GridCell.Tab.0.bottom/0.23.1440.806@0.23.1440.806" timestamp="1605496613532" />
+    <state width="1358" height="175" key="GridCell.Tab.0.bottom/0.23.1440.808@0.23.1440.808" timestamp="1605493100151" />
+    <state width="1358" height="175" key="GridCell.Tab.0.center" timestamp="1605496613532">
+      <screen x="0" y="23" width="1440" height="806" />
+    </state>
+    <state width="1358" height="175" key="GridCell.Tab.0.center/0.23.1440.806@0.23.1440.806" timestamp="1605496613532" />
+    <state width="1358" height="175" key="GridCell.Tab.0.center/0.23.1440.808@0.23.1440.808" timestamp="1605493100150" />
+    <state width="1358" height="175" key="GridCell.Tab.0.left" timestamp="1605496613531">
+      <screen x="0" y="23" width="1440" height="806" />
+    </state>
+    <state width="1358" height="175" key="GridCell.Tab.0.left/0.23.1440.806@0.23.1440.806" timestamp="1605496613531" />
+    <state width="1358" height="175" key="GridCell.Tab.0.left/0.23.1440.808@0.23.1440.808" timestamp="1605493100149" />
+    <state width="1358" height="175" key="GridCell.Tab.0.right" timestamp="1605496613532">
+      <screen x="0" y="23" width="1440" height="806" />
+    </state>
+    <state width="1358" height="175" key="GridCell.Tab.0.right/0.23.1440.806@0.23.1440.806" timestamp="1605496613532" />
+    <state width="1358" height="175" key="GridCell.Tab.0.right/0.23.1440.808@0.23.1440.808" timestamp="1605493100151" />
+    <state width="1358" height="218" key="GridCell.Tab.1.bottom" timestamp="1605491256542">
+      <screen x="0" y="23" width="1440" height="808" />
+    </state>
+    <state width="1358" height="218" key="GridCell.Tab.1.bottom/0.23.1440.808@0.23.1440.808" timestamp="1605491256542" />
+    <state width="1358" height="218" key="GridCell.Tab.1.center" timestamp="1605491256542">
+      <screen x="0" y="23" width="1440" height="808" />
+    </state>
+    <state width="1358" height="218" key="GridCell.Tab.1.center/0.23.1440.808@0.23.1440.808" timestamp="1605491256542" />
+    <state width="1358" height="218" key="GridCell.Tab.1.left" timestamp="1605491256541">
+      <screen x="0" y="23" width="1440" height="808" />
+    </state>
+    <state width="1358" height="218" key="GridCell.Tab.1.left/0.23.1440.808@0.23.1440.808" timestamp="1605491256541" />
+    <state width="1358" height="218" key="GridCell.Tab.1.right" timestamp="1605491256542">
+      <screen x="0" y="23" width="1440" height="808" />
+    </state>
+    <state width="1358" height="218" key="GridCell.Tab.1.right/0.23.1440.808@0.23.1440.808" timestamp="1605491256542" />
+    <state x="520" y="113" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1605491057538">
+      <screen x="0" y="23" width="1440" height="808" />
+    </state>
+    <state x="520" y="113" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.23.1440.808@0.23.1440.808" timestamp="1605491057538" />
+    <state x="770" y="155" width="670" height="676" key="search.everywhere.popup" timestamp="1605488177093">
+      <screen x="0" y="23" width="1440" height="808" />
+    </state>
+    <state x="770" y="155" width="670" height="676" key="search.everywhere.popup/0.23.1440.808@0.23.1440.808" timestamp="1605488177093" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -101,5 +251,8 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Day11$.coverage" NAME="类属性与实例属性混合 Coverage Results" MODIFIED="1605496613520" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
