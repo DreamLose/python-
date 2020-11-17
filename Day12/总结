@@ -40,4 +40,21 @@ del obj.name   # 会触发delete
 垃圾回收的时候触发
 
 
+#__enter__() ,__exit__()
+
+with obj as f:
+    '代码块'
+print('其他代码')
+with obj ----> 触发obj.__enter__() ,拿到返回值
+as f ---> f= 返回值
+
+with obj as f:   等同于 f = obj.__enter__()
+
+执行代码
+
+1.没有异常,整个代码块运行完毕后触发__exit__,他的三个参数为None
+2,有异常的情况下,从异常出现的位置直接触发__exit__
+    a:如果__exit__的返回值为Ture,代表吞掉了异常,with语句块后面的其他代码继续执行
+    b:如果__exit__的返回值为False,代表吐出了异常,程序运行终止
+    c:exit的运行完毕代表了整个with语句的执行完毕,with块里出现异常的位置后面的代码都不会执行
 
