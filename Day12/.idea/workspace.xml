@@ -20,8 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fab980b4-b1d9-458e-b945-2e92673f3279" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Day11/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Day11/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/描述符.py" beforeDir="false" afterPath="$PROJECT_DIR$/描述符.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -303,7 +303,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1605580015732</updated>
-      <workItem from="1605580016834" duration="8554000" />
+      <workItem from="1605580016834" duration="9921000" />
     </task>
     <servers />
   </component>
@@ -322,6 +322,10 @@
     </option>
   </component>
   <component name="WindowStateProjectService">
+    <state x="910" y="186" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1605596276638">
+      <screen x="0" y="23" width="1440" height="811" />
+    </state>
+    <state x="910" y="186" key="#com.intellij.fileTypes.FileTypeChooser/0.23.1440.811@0.23.1440.811" timestamp="1605596276638" />
     <state width="1358" height="175" key="GridCell.Tab.0.bottom" timestamp="1605593276629">
       <screen x="0" y="23" width="1440" height="811" />
     </state>

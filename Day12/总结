@@ -1,0 +1,43 @@
+getattr(obj,'属性')  获取obj.属性,不存在则爆错
+getattr(obj,'属性','默认值')  获取obj.属性,不存在不会报错,返回默认值
+setattr(obj,'属性','默认值')  obj.属性 =属性值
+delattr(obj,'属性') del obj.属性
+
+
+obj.点的方式去操作属性时触发
+__getattr__ : obj.属性 不存在时候触发(重点,制作授权)
+__setattr__ : obj.属性=属性值 时触发
+__delattr__ : del obj.属性 时触发
+
+obj['属性']的方式去操作的时候去触发
+__getitem__: obj['属性'] 时触发
+__setitem__: obj['属性'] = 属性值 时触发
+__delitem__: del obj['属性'] 时触发
+
+描述符就是一个新式类,这个类至少要实现以下三个方法的一个
+__get__
+__set__
+__delete__
+
+class 描述符:
+    def __get__():
+       pass
+    def __set__():
+       pass
+    def __delete__():
+       pass
+
+class 类:
+    name = 描述符()
+
+obj = 类()
+obj.name   # 会触发get
+obj.name= 'nn' # 会触发set
+del obj.name   # 会触发delete
+
+
+#__del__ 析构方法
+垃圾回收的时候触发
+
+
+
