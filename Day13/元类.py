@@ -5,6 +5,7 @@ f1 = Foo()
 print(Foo)
 # print(type(f1))
 #
+
 # print(type(Foo))
 
 # type 创建类 (类名,继承对象,属性)

@@ -1,4 +1,5 @@
 """
+
 方式一:
 class Foo:
     @property
