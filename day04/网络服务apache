@@ -31,7 +31,7 @@
 4.测试: 电脑配置映射网络驱动器
 
 	mac
-	1，打dao开一个finder
+	1，打开一个finder
 	2，按Command+K
 	3，输入smb://服务器ip/company(就是windows共享目录)
 	4，接zhi下来跟windows一样了
