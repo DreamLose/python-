@@ -3,8 +3,13 @@
 # 优先级
 # 类属性> 数据描述符>实例属性>非数据描述符>找不到
 
+#数据描述符: 至少实现了set 跟get 方法
+# 非数据描述符:没有set方法
+
+"""
+"""
 class Foo:
- 
+
     # 数据描述符  __get__ __set__ __delete__
     def __get__(self, instance, owner):
         print("__get__方法 instance = %s owner = %s" %(instance,owner))
