@@ -1,0 +1,5 @@
+tcp 接收消息 recv
+recv 在自己这端的缓冲区为空时,会阻塞
+
+udp 接收消息为 recvfrom
+recvfrom 在自己这端的缓冲区为空时,不会阻塞
