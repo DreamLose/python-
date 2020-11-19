@@ -10,7 +10,7 @@
 
 
 
-部署samba网盘的步骤
+部署samba网盘的步骤fo
 1.准备环境
 	关闭防火墙(service iptables stop: 临时修改)(chkconfig iptables off : 永久修改)
 	关闭selinux: setenforce 0 (vim /etc/selinux ; SELINUX=enforcing 修改为 SELINUX=disabled   : 永久修改)

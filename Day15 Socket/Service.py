@@ -1,7 +1,7 @@
 # 三次握手 不涉及数据传输,只是建立连接
 # 四次挥手 涉及数据,谁结束谁主动断开连接
-
 import socket
+
 #AF_INET : 基于网络
 # STREAM TCP
 phone = socket.socket(socket.AF_INET,socket.SOCK_STREAM) # 初始化
