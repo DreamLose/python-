@@ -2,12 +2,14 @@ import optparse
 import socket
 import json
 import os,sys
+import hashlib
 SUCCESS_CODE = {
     '500':'验证通过',
     '501':'验证失败',
     '802' : '文件不存在,可以上传',
     '801' : '文件已经存在',
-    '800' : '文件b不完整,是否继续'
+    '800' : '文件b不完整,是否继续',
+    '900': '文件一致'
 }
 
 
@@ -39,13 +41,13 @@ class ClientHandler():
     def interactive(self):
         print('开始交互....')
         if self.authenticate():
-            print('-----')
-            # 输入文件名
-            cmd_info = input('[%s]'%self.user.strip())
-            cmd_list = cmd_info.split()
-            if hasattr(self,cmd_list[0]):
-                func = getattr(self,cmd_list[0])
-                func(*cmd_list)
+            while True:
+                # 输入文件名
+                cmd_info = input('[%s]'%self.currentdir.strip())
+                cmd_list = cmd_info.split()
+                if hasattr(self,cmd_list[0]):
+                    func = getattr(self,cmd_list[0])
+                    func(*cmd_list)
     # 上传文件(断点续传)
     def put(self,*cmd_list):
         # put 12.png images
@@ -81,11 +83,21 @@ class ClientHandler():
 
         f = open(local_path,'rb')
         f.seek(has_send)
+        md5_obj = hashlib.md5()
         while has_send<file_size:
             data = f.read(1024)
             self.sock.sendall(data)
             has_send += len(data)
+            md5_obj.update(data)
             self.show_progress(has_send,file_size)
+        else:
+            print('上传成功')
+            md5_val = md5_obj.hexdigest()
+            self.sock.recv(1024) # 解决粘包
+            self.sock.sendall(md5_val.encode('utf-8'))
+            response = self.sock.recv(1024).decode('utf-8')
+            if response == "900":
+                print(SUCCESS_CODE[response])
         f.close()
         print('上传成功')
 
@@ -118,19 +130,38 @@ class ClientHandler():
         res = self.response()
         print('服务器端返回-->', res)
         if res['state_code'] == '500':
-
             self.user = username
+            self.currentdir = username
             return True
         else:
             print(SUCCESS_CODE[res['state_code']])
 
-    def ls(self):
+    def ls(self,*cmd_list):
         data = {
             'action':'ls',
         }
         self.sock.sendall(json.dumps(data).encode('utf-8'))
-        data = self.response()
-        print('服务器返回-->',data)
+        data = self.sock.recv(1024).decode('utf-8')
+        print(data)
+        return
+    def cd(self,*cmd_list):
+        data = {
+            'action':'cd',
+            'dirname':cmd_list[1]
+        }
+        self.sock.sendall(json.dumps(data).encode('utf-8'))
+        data = self.sock.recv(1024).decode('utf-8')
+        self.currentdir = os.path.basename(data)
+
+        return
+    def mkdir(self,*cmd_list):
+        data = {
+            'action': 'mkdir',
+            'dirname': cmd_list[1]
+        }
+        self.sock.sendall(json.dumps(data).encode('utf-8'))
+        data = self.sock.recv(1024).decode('utf-8')
+        print('--->',data)
 
 
 ch = ClientHandler()

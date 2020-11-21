@@ -104,6 +104,30 @@ class ServerHandle(socketserver.BaseRequestHandler):
             has_received +=len(data)
 
         f.close()
-
+    # 遍历文件
     def ls(self,**data):
-        cmd =
+        file_list = os.listdir(self.mainPath)
+        file_str = '\n'.join(file_list)
+        if not len(file_list):
+            file_str = '<empty dir>'
+        self.request.sendall(file_str.encode('utf-8'))
+    # 切换目录
+    def cd(self,**data):
+        dirname = data.get('dirname')
+        if dirname == '..':
+            self.mainPath = os.path.dirname(self.mainPath)
+        else:
+            self.mainPath = os.path.join(self.mainPath,dirname)
+        self.request.sendall(self.mainPath.encode('utf-8'))
+
+    def mkdir(self,**data):
+        dirname = data.get('dirname')
+        path = os.path.join(self.mainPath,dirname)
+        if not os.path.exists(path):
+            if "/" in dirname:
+                os.makedirs(path)
+            else:
+                os.mkdir(path)
+            self.request.sendall('creat success'.encode('utf-8'))
+        else:
+            self.request.sendall('dirname exist'.encode('utf-8'))
