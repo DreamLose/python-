@@ -18,7 +18,9 @@ if __name__ == '__main__':
     t2 = threading.Thread(target=game)
     # t1.setDaemon(True) #守护进程,跟主线程一块结束
     t1.start()
-    # t1.join()  # 等待子线程执行完在执行以后代码
+
+    # t1.join()
+    # 等待子线程执行完在执行以后代码
     t2.setDaemon(True)  # 守护进程,跟主线程一块结束
     t2.start()
 
@@ -43,3 +45,4 @@ threading.activeCount():返回正在运行的线程数量,与len(threading.enume
 
 
 """
+
