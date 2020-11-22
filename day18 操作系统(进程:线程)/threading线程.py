@@ -43,6 +43,6 @@ threading.currentThread() : 返回当前线程变量
 threading.enumerate():返回一个包含正在运行的线程list,正在运行的线程启动后,结束前,不包含启动前和终止后的线程
 threading.activeCount():返回正在运行的线程数量,与len(threading.enumerate()) 有相同的结果
 
-
+进程是最小的资源单位,一个进程最少有一个线程
 """
 
