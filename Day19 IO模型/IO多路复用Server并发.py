@@ -20,4 +20,4 @@ while True:
                 obj.sendall(res.encode('utf-8'))
             else:
                 inp.remove(obj)
-   
+
