@@ -1,0 +1,138 @@
+CSS:
+    1.怎么找到标签 (选择器)
+    2.如何操作标签对象(element)
+
+一: CSS四种引入方式
+    1.行内式
+        在标记的style属性中设定CSS样式,不推荐使用
+    <div style="color: rebeccapurple;background-color: green">hello 诸葛亮</div>
+
+    2.嵌入式
+        嵌入式是将CSS样式集中写在网页<head></head>标签对的<style></style>标签对中,格式如下:
+        <head>
+            <meta charset="UTF-8">
+            <title>Title</title>
+            <style>
+                p{
+                    color: red;
+                    font-size: 40px;
+                }
+                a{
+                    text-decoration: none;
+                }
+            </style>
+        </head>
+    3.链接式
+        将一个css文件引入到HTML中
+        <link href="testCss.css" rel="stylesheet">-->
+    4.导入式(导入数量有限制)
+        将一个独立的css文件导入到HTML中,导入式使用CSS规则引入外部CSS文件
+        <style>
+            @import "testCss.css";
+        </style>
+
+注意: 导入式会在整个页面装载完成后再装载CSS,如果页面比较大,则会出现先显示无样式页面,闪烁一下在出现网页样式
+
+
+二. CSS的选择器
+
+嵌套规则:
+    1.块级元素可以包含内联元素或某些块级元素.但内联元素只能包含内联元素
+    2.有几个特殊的块级元素只能包含内联元素,不能包含块级元素 h1,--->h6 p dt
+    3.li内可以包含div
+    4.块级元素与块级元素并列,内联元素与内联元素并列
+
+
+    优先级:
+    内联样式:1000
+    id:100
+    class:10
+    标签:1
+    继承:0
+    1.文内样式优先级为1000,所以始终高于外部定义,这里的文内样式如下:
+        <div class="div1" id="id1" style="color: yellow">
+            优先级
+        </div>
+    2.有!important声明的规则高于一切
+    3.如果!important声明冲突,则比较优先权
+    4.如果优先权一样,则按照在源码中出现的顺序决定,后来居上
+    5.有继承而得到的样式没有specificity的计算,他低于一切其他规则
+
+    继承:
+    继承是依赖于祖先-后代的关系,它允许样式不仅可以应用于某个特定的元素,还可以应用于他的后代,例如一个<body> 定义了颜色
+ 值也会应用到段落文本中
+ body{color:red;}  <p>段落文本</p>
+ CSS继承的权重非常低,比普通元素的权重还要低的0
+ 此外,一些属性不能被继承,比如border,margin,padding,backgrou等
+三.CSS的属性
+
+display: 块级标签/内联标签转换
+
+背景属性:
+.back{
+    border: 1px solid red;
+    width: 800px;
+    height: 800px;
+    background-image: url("timg.jpg");
+    /*不重复平铺*/
+    background-repeat: no-repeat;
+    /*中心显示*/
+    background-position: center 0;
+
+}
+###################################
+    内边距/外边距
+margin: 用于控制元素与元素之间的距离,margin的最基本用途就是控制元素周围空间
+        的间隔,从视觉角度上达到相互隔开的目的(标签与标签的距离)
+padding: 用于控制内容与边框之间的距离
+border(边框):围绕在内边距和内容外的边框
+content(内容):盒子的内容,显示文本和图像
+
+父子div(只限于父子div中找)
+    如果父级div中没有border,padding,inline content,子级div的margin会一直向上找,
+    直到找到某个标签包括border,padding,inline content中的其中一个,然后按此标签进行margin
+解决方案:
+1.border:1px solid transparent
+2:padding:1px
+3.overflow:hidden
+
+###################################
+float 属性
+脱离文档流: 将元素从普通的布局排版中拿走,其他盒子在定位的时候,会当做脱离文档流的元素不存而进行定位
+只有绝对定位absolute 和浮动float才会脱离文档流
+
+区别:
+    使用float 脱离文档流时,其他盒子会无视这个元素,但其他盒子内的文本依然会为这个元素让出位置,环绕在周围(可以说是部分无视)
+使用absolute postion 脱离文档流的元素.其他盒子与其他盒子内的文本都会无视他(可以说是完全无视)
+
+
+clear 属性
+    clear 属性只会对自身起作用,而不会影响其他元素,如果一个元素的右侧有一个浮动的对象,而这个元素设置了不允许右边
+有浮动对象,即clear: right; 则这个元素会自动下移一格,达到本元素右边没有浮动的对象
+
+
+position(定位)
+
+1.static ,默认值, 无定位,不能当做绝对定位的参照物,并且设置标签对象的left,top等值是不起作用的
+
+2.relative/absolute
+ relative:相对定位,相对定位是相对于该元素在文档流中的原始位置,即以自己原始位置为参照物
+          即使设定了元素的相对定位以及偏移值,元素还占有着原来的位置,即占据文档流空间
+          对象遵循正常文档流,依据top,right等属性在正常文档流中便宜位置
+          而其层叠通过z-index属性定义
+ 注意:relative一个主要用法,方便绝对定位元素找到参照物
+
+ absolute:绝对定位  设置为绝对定位的元素框从文档流中完全删除,并相对于最近的已定位祖先元素定位
+           如果元素没有已定位的祖先元素,那么他的位置相对于最初的包含块(即body元素)
+           元素原先在正常文档流中所占的空间会关闭,就好像该元素原来不存在一样.元素定位后生成一个
+           块级框,而不论原来他在正常流中生成何种类型的框
+ 注意:如果父级设置了position属性,例如 postition:relative,那么子元素就会以父级左上角为原始点进行定位
+      这样能很好的解决自适应网站的标签偏离问题,即父级为自适应
+ 总结:参照物用相对定位,子元素用绝对定位,并且保证相对定位参照物不会偏移即可
+
+ 3.pisition:fixed
+ fixed: 对象脱离正常文档流,使用top,left等属性以窗口为参考点进行定位,当出现滚动条时.对象不会随着滚动
+       而其层叠通过z-index属性定义
+ 注意: 一个元素若设置了position:absolute|fixed 则该元素就不能设置float,因为这是两个不同的流,一个是
+        浮动流,一个是定位流,但是relative 却可以,因为他原本所占空间仍然占据文档流
+ 理论上,被设置为fixed的元素会被定位于浏览器窗口的换一个指定坐标,不论窗口是否滚动,他都会固定在这个位置

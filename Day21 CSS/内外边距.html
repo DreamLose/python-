@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        /*body{*/
+        /*    border: 2px solid green;*/
+        /*    !*去除body自带外边距*!*/
+        /*    margin: 0px;*/
+        /*}*/
+        .div1{
+            /*宽高只是文本区域大小*/
+            width: 200px;
+            height: 200px;
+            background-color: transparent;
+            /*内部设置*/
+            border: 20px solid red;
+            /*内边距*/
+            padding: 40px;
+            /*标签与标签的距离*/
+            /*margin: 20px;*/
+            /*margin-bottom: 20px;*/
+            margin-top: 30px;
+
+
+        }
+        .div2{
+            width: 200px;
+            height: 200px;
+            background-color: rebeccapurple;
+            border: 20px solid yellow;
+            padding: 5px;
+            /*margin-top: 10px;*/
+        }
+        .outer{
+            height: 800px;
+            background-color: yellow;
+            /*border: 1px solid red;*/
+            /*padding: 1px;*/
+            overflow: hidden;
+        }
+
+        .outer2{
+            width: 100px;
+            height: 100px;
+            background-color: darkgreen;
+        }
+    </style>
+</head>
+<body>
+<div class="outer2"></div>
+<div class="outer">
+<!--    哈哈哈-->
+<div class="div1">
+hello div1
+</div>
+<div class="div2">
+hello div2
+</div>
+</div>
+</body>
+</html>

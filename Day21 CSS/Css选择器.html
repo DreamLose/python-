@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+/*<!--通用选择器-->*/
+        *{
+            color: red;
+        }
+        /*通过名字选择*/
+        div{
+
+        }
+        /*通过id选择*/
+        #littlep{
+            background-color: green;
+        }
+        /*通过class选择*/
+        .clsP{
+            background-color: yellow;
+            color: black;
+        }
+        /*组合*/
+        div.clsP{
+            background-color: blue;
+        }
+        /*组合选择器 并列*/
+        #littlep,div.clsP{
+            background-color: darkslategray;
+        }
+
+        /*后代选择器 */
+        .div1 div{
+            background-color: brown;
+        }
+        .div1 .div2{
+            background-color: darkolivegreen;
+        }
+
+        .div1 div p{
+            background-color: deepskyblue;
+        }
+
+        /*只在子代中找*/
+        .div1>.div2{
+            background-color: slateblue;
+        }
+
+        /*紧邻选择器 向下找*/
+        .div1+div{
+            background-color: green;
+        }
+
+        /*属性选择器*/
+        [alex]{
+            background-color: purple;
+        }
+        [alex='dasb']{
+            background-color: green;
+            font-family: "Times New Roman";
+            font-size: 40px;
+        }
+        p[alex='dasb']{
+            background-color: green;
+            font-family: "Times New Roman";
+            font-size: 80px;
+        }
+        /*匹配有att属性具有多个空格分隔符的值,其中一个值等于'val'的元素*/
+        [alex~='sb']{
+            background-color: purple;
+            font-family: "Times New Roman";
+            font-size: 100px;
+        }
+        /*匹配有att属性必须以指定值开头的每个元素*/
+        [alex^='s']{
+            background-color: purple;
+            font-family: "Times New Roman";
+            font-size: 100px;
+        }
+        /*匹配有att属性必须以指定值结尾的每个元素*/
+        [alex$='s']{
+            background-color: purple;
+            font-family: "Times New Roman";
+            font-size: 100px;
+        }
+        /*匹配有att属性包含指定值的每个元素*/
+        [alex*='s']{
+            background-color: purple;
+            font-family: "Times New Roman";
+            font-size: 100px;
+        }
+
+    </style>
+</head>
+<body>
+hello body
+<div>hello</div>
+<p id="littlep">pppp</p>
+<p class="clsP">232323</p>
+<p class="clsP">232323</p>
+<p>232323</p>
+<a href="">aaaa</a>
+
+<div class="clsP">div</div>
+<div>before</div>
+<div class="div1">
+
+    <div>
+        <a href="">a</a>
+        <p>我是div2中的</p>
+        <div>div3</div>
+
+    </div>
+    <p>我是div1中的</p>
+    <div class="div2">
+        hhhh
+    </div>
+</div>
+<p>after div1</p>
+<div>after div1</div>
+
+
+<!--属性选择器-->
+<div>hello</div>
+<div alex="sb">诸葛亮</div>
+<div alex="dasb">貂蝉</div>
+<p alex="dasb">小乔</p>
+<p alex="da  sb">妲己</p>
+<div></div>
+<div></div>
+
+
+</body>
+</html>

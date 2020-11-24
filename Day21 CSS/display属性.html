@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .div2,p,a,span{
+            width: 100px;
+            height: 100px;
+        }
+        .div2{
+            /*display: inline;*/
+            background-color: red;
+            /*隐藏标签 可用来设置隐藏菜单等*/
+            display: none;
+        }
+        p{
+            /*display: inline;*/
+            background-color: yellow;
+        }
+        a{
+            /*既可以设置长高,还不会独占一行*/
+            /*内联标签不可以设置长 高*/
+            display: inline-block;
+            background-color: green;
+        }
+        span{
+            display: inline-block;
+            background-color: purple;
+        }
+        .outer{
+            /*去除display 自己产生的间隙*/
+            word-spacing: -5px;
+
+        }
+    </style>
+</head>
+<body>
+<div class="div2">diviiiii</div>
+<p>pppp</p>
+<div class="outer">
+    <span>spannnnnnn</span>
+    <a href="#">click</a>
+</div>
+</body>
+</html>

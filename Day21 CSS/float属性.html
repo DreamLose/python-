@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        /*码尽管第二个div有clear:right代码，但是它的右侧还是出现了浮动元素。这主要代码是顺序执行的，当执行到第二个div要清除右浮动的时候，第三个div并没有被加载，所以它的清除效果也就无效了，于是第三个div依然会紧跟着第二个div。*/
+        .div1{
+            width: 100px;
+            height: 100px;
+            background-color: beige;
+            float: left;
+        }
+        .div2{
+            width: 200px;
+            height: 100px;
+            background-color: rebeccapurple;
+            float: left;
+            clear: right;
+            /*设置左边没有浮动的元素*/
+            /*clear: right;*/
+        }
+        .div3{
+            width: 100px;
+            height: 200px;
+            background-color: green;
+            float: left;
+            /*clear: right;*/
+        }
+        .div4{
+            width: 200px;
+            height: 200px;
+            background-color: yellow;
+            float: left;
+
+        }
+
+    </style>
+</head>
+<body>
+
+<!--div.div*4  按tab键可以快速写4个div-->
+
+<div class="div1"></div>
+<div class="div2"></div>
+<div class="div3"></div>
+<div class="div4"></div>
+
+
+</body>
+</html>
