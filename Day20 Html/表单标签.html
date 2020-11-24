@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> </title>
+</head>
+<body>
+<h1>注册页面</h1>
+<form action="http://127.0.0.1:8090/index" method="get">
+   <p>姓名<input type="text" name="username" placeholder="姓名"></p>
+    <p>密码<input type="password" name="pwd" placeholder="密码"></p>
+    <p>爱好:    音乐<input type="checkbox" name="hobby" value="music">电影<input type="checkbox" name="hobby" value="movie"></p>
+    <p>性别:      男<input type="radio" name="gender" value="men"> 女 <input type="radio" name="gender" value="women"> </p>
+    <!--只是个按钮 配合js-->
+<!--    <p><input type="button" value="提交注册"></p>-->
+    <!--submit 提交表单到服务器-->
+    <p><input type="file" name="filename"></p>
+    <p><input type="reset" value="重置"></p>
+
+    省<select name="city">
+        <option value="1">北京</option>
+        <option value="2">河北</option>
+        <option value="3">河南</option>
+    </select>
+
+    省<select name="city">
+        <optgroup label="中国" >
+            <option value="1">北京</option>
+            <option value="2">河北</option>
+            <option value="3">河南</option>
+        </optgroup>
+        <optgroup label="新疆" >
+            <option value="1">乌鲁木齐</option>
+            <option value="2">内蒙看</option>
+            <option value="3">黑龙江</option>
+        </optgroup>
+
+    </select>
+
+<!-- multiple 设置多选 size：默认显示的个数  -->
+    多选<select name="pri" multiple size="2">
+        <option value="11">北京</option>
+        <option value="22">河北</option>
+        <option value="33">河南</option>
+        <option value="34">河南</option>
+        <option value="35">河南</option>
+    </select>
+
+    简介<textarea name="desc" id="" cols="30" rows="10"></textarea>
+
+    <label for="rrr">姓名</label>
+    <input type="text" id="rrr">
+    
+    <fieldset>
+        <legend>快来登陆了</legend>
+        <input type="text">
+    </fieldset>
+    <p><input type="submit" value="提交注册"></p>
+</form>
+
+
+
+</body>
+</html>

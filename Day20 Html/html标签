@@ -34,8 +34,88 @@ name:定义一个页面的书签
             <dt> 列表标题
             <dd> 列表项
 
-
+###################################
 表单标签 <form>  (重点)
+表单用于向服务器传输数据
+表单能够包含input元素,比如文本字段,复选框,单选框,提交按钮等
+表单还可以包含textarea,select,fieldset和label元素
+1.表单属性
+表单用户接受不同类型的用户输入,用户提交表单是向服务器传输数据,从而实现用户与web服务器的交互,表单标签要提交的所有内容都应该在改标签中
+action:表单提交到哪.一般指向服务器端的一个程序,程序接收到表单提交过来的数据做相应的处理,
+method:表单提交的方式post/get 默认取值是get
+get:提交的键值对放在地址栏url后面,安全性较差,对提交的内容长度有限制
+post:提交的键值对不在地址栏,安全性相对较高,对提交的内容长度理论上无限制
+
+
+表单元素
+
+<input>
+type : text  文本输入
+      password 密码输入
+      radio  单选框
+      checkbox 多选框
+      submit 提交按钮
+      button 按钮(配合js使用,)
+      reset 重置
+      file 提交文件 form表单需要加上属性enctype="multipart/form-data"
+name : 表单提交项的键,注意和id属性的区别:name属性是和服务器通信时使用的名称,而id属性是浏览器端使用的名称,该属性是为了方便客户端编程,而在css和js中使用的
+value:表单提交项中的值,对于不同的输入类型,valule的用法也不同
+    type = "button",'reset','submit'  --定义按钮上的显示文本
+    type = 'text','password','hidden' --定义输入字段的初始值
+    type = 'checkbox','radio','image' --定义与输入相关联的值
+checked: radio和checkbox 默认选中
+readonly:只读 text和password
+disabled:对所有input都好使
+
+上传文件时注意:
+1. 请求方式必须是post
+2.enctype="multipart/form-data"
+
+<select> 下拉选项标签
+name:表单提交的键
+size:选项个数
+multiple:multiple
+        <option> 下拉选中的每一项 属性
+               value:表单提交项的值, selected:selected 下拉默认选中
+        <optgroup> 为每项加上分组
+
+<textarea>文本域
+name： 表单提交项的键
+cols：文本域默认多少列
+rows：文本域默认多少行
+
+<label> ：不常用
+点击'姓名'文本，input也可以输入
+<label for="rrr">姓名</label>
+<input type="text" id="rrr">
+
+<fieldset> ：不常用
+
+<fieldset>
+    <legend>快来登陆了</legend>
+    <input type="text">
+</fieldset>
+
+<table> 表格标签
+属性:
+    border：表格边框
+    cellpadding：内边框
+    cellspacing：外边框
+    width：像素 百分比(最好通过css来设置长宽)
+<tr> : table Row
+    <th> table head cell
+    <td> table data cell
+rowspan : 表格竖跨多少行
+colspan : 表格横跨多少列(合并单元格)
+<th> table header
+<tbody><thead> (不常用):为表格进行分区
+
+
+
+
+
+
+
 
 
 ###################################

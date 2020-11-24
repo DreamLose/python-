@@ -6,7 +6,7 @@ def main():
     while True:
         conn,addr = sk.accept()
         buf = conn.recv(1024)
-        f = open('test.html','rb')
+        f = open('表单标签.html','rb')
         data = f.read()
 
         conn.sendall(bytes('HTTP/1.1 201 OK\r\n\r\n','utf-8'))
