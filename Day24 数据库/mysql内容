@@ -94,7 +94,7 @@ OR
     desc tab_name 查看表结构
     show columns from tab_name  查看表结构
     show tables 查看当前数据库中的所有的表
-    show create table tab_name    查看当前数据库表建表语句
+    show create table tab_name    查看当前数据库表建表语句(sql语句)
 
 -- 3.修改表结构
    -- (1)增加列(字段)
@@ -107,7 +107,7 @@ OR
             add birth varchar(20) after name;
 
    -- (2)修改一列类型
-      alter table tab_name modify 列名 类型 [完整性约束条件]［first｜after 字段名］;
+      alter table [表名] modify 列名 类型 [完整性约束条件]［first｜after 字段名］;
       alter table users2 modify age tinyint default 20;
       alter table users2 modify age int  after id;
 
@@ -130,6 +130,7 @@ OR
 -- 4.删除表
     drop table tab_name;
 
+###############
 ---5 添加主键，删除主键
     alter table tab_name add primary key(字段名称,...)
     alter table users drop primary key;
@@ -272,7 +273,7 @@ INSERT INTO ExamResult VALUES  (1,"yuan",98,98,98),
                 -- 统计每个学生的总分。
                 select name,JS+Django+OpenStack from ExamResult;
                 -- 使用别名表示学生总分。
-                select name as 姓名,JS+Django+OpenStack as 总成绩 from ExamResult;
+                select name as '姓名',JS+Django+OpenStack as '总成绩' from ExamResult;
                 select name,JS+Django+OpenStack 总成绩 from ExamResult;
 
                 select name JS from ExamResult; -- what will happen?---->记得加逗号
@@ -435,10 +436,11 @@ INSERT INTO ExamResult VALUES  (1,"yuan",98,98,98),
 
             --<2> 统计分组后的组记录
 
-
+##################################
 -- （7） 重点：Select from where group by having order by
                 -- Mysql在执行sql语句时的执行顺序：
                 -- from  where  select group by  having order by
+##################################
                 -- 分析:
                 select JS as JS成绩 from ExamResult where JS成绩 >70; ---- 不成功
                 select JS as JS成绩 from ExamResult having JS成绩 >90; --- 成功

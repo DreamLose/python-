@@ -1,0 +1,27 @@
+#新建表
+create table emploee(
+    id TINYINT primary key auto_increment,
+    name varchar(25),
+    gender boolean,
+    age INT default 19,
+    salary DOUBLE(7,2),
+    department varchar(20)
+)
+
+# 插入多条数据
+insert into emploee (name,salary,depart) values ('小乔',4000,'python'),('貂蝉',5900,'前台'),('诸葛亮',6000,'python');
+insert into emploee values (10,29,'关羽',1,'业务',4000,1);
+insert into emploee set name='程咬金';
+# 修改记录
+update emploee set salary=salary+20000 where id=11;
+update emploee set salary=salary+10000,age=30,depart='门卫' where name='诸葛亮';
+# 删除记录
+delete from emploee where id=10 OR id=3;
+# 一条一条记录的删除
+delete from emploee;
+# 直接删除的表,然后在给你重新创建一个新的
+truncate table emploee;
+
+
+
+
