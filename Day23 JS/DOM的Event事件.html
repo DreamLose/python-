@@ -13,6 +13,10 @@
 
     <p id="p1">pppppp</p>
 </div>
+<form action="" id="form1">
+    <input type="text" name="username">
+    <input type="submit" value="提交">
+</form>
 
 <script>
     /*
@@ -24,13 +28,13 @@
     onkeydown:某个键盘按键被按下  (当用户在最后一个输入框按下回车键时,表单提交)
     onkeypress:某个键盘被按下并松开
     onkeyup:某个键盘按键被松开
-    onload:一张页面或一幅图像完成加载
+    onload:一张页面或一幅图像完成加载 (属性开发中,只给body元素加)
     onmousedown:鼠标按钮被按下
     onmousemove:鼠标被移动
     onmouseleave:鼠标从元素离开
 
     onselect :文本被选中
-    onsubmit: 确认按钮被点击
+    onsubmit: 确认按钮被点击 (该属性只能给form元素使用,在表单提交前验证用户输入是否合法,如果失败,在该方法中我们应该阻止表单提交)
 */
 
     function f(){
@@ -49,6 +53,13 @@
         }
     }
 
+    var formE = document.getElementById('form1')
+    formE.onsubmit = function (event){
+        // alert('提交')
+        console.log('121')
+        event.preventDefault()
+        // return false
+    }
 </script>
 
 </body>
