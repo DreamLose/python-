@@ -1,0 +1,200 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+a{
+    text-decoration: none;
+}
+/*导航栏样式*/
+.header-fix{
+    position: fixed;
+    width: 100%;
+    top: 0;
+    height: 56px;
+}
+.header-fix .outer-container {
+    background-color: #fff;
+    /*background-color: green;*/
+    height: 56px;
+
+}
+.main-container {
+    margin: 0 auto;
+    /*background-color: red;*/
+    width: 1190px;
+}
+.left {
+    float: left;
+}
+.main-container .logo-con{
+    display: inline-block;
+}
+.main-container .logo-con .logo-icon{
+    display: inline-block;
+    height: 36px;
+    width: 36px;
+    margin-top: 10px;
+}
+.main-container .logo-con .logo-txt{
+    width: 112px;
+    height: 22px;
+    margin-left: 12px;
+    position: relative;
+    top: -7px;
+}
+
+header nav .nav-ul{
+    list-style: none;
+    margin-left: 10px;
+    /*background-color: red;*/
+}
+header nav .nav-ul .nav-li.active{
+    border-bottom: 3px solid #f8aa00;
+}
+header nav .nav-ul .nav-li{
+    font-size: 14px;
+    color: #4b4c4d;
+    margin-left: 28px;
+    padding: 17px 11px;
+    border: 2px solid #fff;
+}
+header nav .nav-ul .nav-li span{
+    font-size: 14px;
+    font-weight: 700;
+}
+header nav .nav-ul .nav-li .trangle-icon{
+    display: inline-block;
+    width: 10px;
+    height: 5px;
+    position: relative;
+    top: -3px;
+    margin-left: 5px;
+    background-size: 100%;
+    background-image: url("images/triangle.png");
+}
+
+header nav .nav-ul .nav-li:hover{
+    color: #f8aa00;
+}
+header nav .nav-ul .nav-li:hover .trangle-icon{
+    background-image: url("images/trangle_hover.png");
+}
+
+.right {
+    float: right;
+}
+header .btn1{
+    margin-top: 9px;
+    font-size: 14px;
+    padding: 9px 22px;
+    font-weight: 700;
+    text-align: center;
+    border-radius: 2px;
+    border: 1px solid #f8aa00;
+    background-color: #fff;
+    color: #f8aa00;
+}
+header .btn1:hover{
+    background-color: #f8aa00;
+    color: #fff;
+}
+.btn{
+    text-align: center;
+    border-radius: 2px;
+    border: 1px solid #f8aa00;
+    background-color: #f8aa00;
+    color: white;
+
+}
+header .publish-btn{
+    display: inline-block;
+    margin-right: 35px;
+    padding: 8px;
+    width: 12px;
+    height: 12px;
+    margin-top: 13px;
+}
+
+header .publish-btn .publish-icon{
+    width: 14px;
+    height: 14px;
+    margin-right: 5px;
+    position: relative;
+    top: -3px;
+}
+
+header .search{
+    width: 208px;
+    height: 36px;
+    line-height: 36px;
+    margin-top: 10px;
+    background-color: #f5f5f5;
+    margin-right: 35px;
+    position: relative;
+    border-radius: 2px;
+}
+header .search-input{
+    margin-left: 10px;
+    background-color: #f5f5f5;
+    font-size: 14px;
+    border: none;
+    outline: none;
+}
+header .search .search-icon{
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    background-size: 100%;
+    background-image: url("images/search.png");
+}
+
+/*内容部分*/
+.outer-container {
+    width: 100%;
+    background-color: lightgray;
+}
+.main-fix {
+    margin-top: 74px;
+    margin-bottom: 100px;
+}
+.main-container{
+    width: 1194px;
+    /*margin: 0 auto;*/
+}
+.main-wrap{
+    width: 100%;
+    float: left;
+}
+.main{
+    margin-right: 354px;
+    min-height: 600px;
+    height: auto;!important;
+
+
+}
+
+.link-con .link-item{
+    background-color: #fff;
+    border-bottom: 1px solid #fff;
+    position: relative;
+}
+.link-con .link-item .link-area{
+    width: 840px;
+    padding: 14px;
+}
+.link-con .link-item .link-area>.common-matching-con{
+    width: 120px;
+    height: 120px;
+    text-align: center;
+    line-height: 120px;
+    position: relative;
+    border: 1px solid #f5f5f5;
+    border-radius: 2px;
+}
+.link-con .link-item .link-area>.common-matching-con .matching{
+    width: 120px;
+    height: 120px;
+}

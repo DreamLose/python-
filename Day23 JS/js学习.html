@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #id1{
+            width: 200px;
+            height: 50px;
+        }
+    </style>
+</head>
+<body>
+<input type="text" id="id1" onclick="begin()">
+<button onclick="endFunc()">停止</button>
+<div onclick="funcClick()">click</div>
+
+<script>
+    function showtime(){
+        var nowd = new Date().toLocaleString()
+        var ele = document.getElementById("id1")
+        ele.value = nowd
+    }
+    var clock1;
+    function begin(){
+        if (clock1 == undefined){
+             showtime()
+            //隔一定时间 运行一个函数
+            clock1 = setInterval(showtime,1000)
+        }
+
+    }
+
+    function endFunc(){
+        //清除定时器
+        clearInterval(clock1)
+        clock1 = undefined
+    }
+
+    function funcClick(){
+        //两秒后执行一个函数
+        var c = setTimeout(showtime,2000)
+        //取消
+        clearTimeout(c)
+    }
+</script>
+</body>
+
+</html>
