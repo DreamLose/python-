@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="div1">
+    <div class="div2">ddd</div>
+    <div class="div2">ddd</div>
+    <div class="div2">ddd</div>
+    <div class="div2">ddd</div>
+
+    <p id="p1">pppppp</p>
+</div>
+
+<script>
+    /*
+    onclick:当用户点击某个对象时调用的事件句柄
+    ondblcick: 当用户双击某个对象时调用的事件
+    onfocus:元素获得焦点 (输入框)
+    onblur:元素失去焦点 (表单验证,当用户离开某个输入框时,代表已经输完了,可以进行验证)
+    onchange:域内的元素内容被修改 (当元素内容被改变时触发,三级联动)
+    onkeydown:某个键盘按键被按下  (当用户在最后一个输入框按下回车键时,表单提交)
+    onkeypress:某个键盘被按下并松开
+    onkeyup:某个键盘按键被松开
+    onload:一张页面或一幅图像完成加载
+    onmousedown:鼠标按钮被按下
+    onmousemove:鼠标被移动
+    onmouseleave:鼠标从元素离开
+
+    onselect :文本被选中
+    onsubmit: 确认按钮被点击
+*/
+
+    function f(){
+        alert(1212)
+    }
+    //事件绑定推荐方式
+    var ele = document.getElementById('p1')
+    ele.onclick = function (){
+            alert(123)
+    }
+    var ele2 = document.getElementsByClassName('div2')
+    //
+    for (var i =0;i<ele2.length;i++){
+        ele2[i].onclick=function (){
+            alert(31321)
+        }
+    }
+
+</script>
+
+</body>
+</html>
