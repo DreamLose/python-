@@ -23,5 +23,82 @@ delete from emploee;
 truncate table emploee;
 
 
+CREATE TABLE ClassCharger(
+
+       id TINYINT PRIMARY KEY auto_increment,
+       name VARCHAR (20),
+       age INT ,
+       is_marriged boolean
+
+)engine = innodb charset = utf8;
+CREATE TABLE Student(
+
+       id INT PRIMARY KEY auto_increment,
+       name VARCHAR (20),
+       charger_id TINYINT
+
+
+)engine = innodb charset = utf8;
+CREATE TABLE Student3(
+
+       id INT PRIMARY KEY auto_increment,
+       name VARCHAR (20),
+       charger_id TINYINT,
+       FOREIGN KEY (charger_id) REFERENCES ClassCharger(id) on DELETE CASCADE
+
+)engine = innodb charset = utf8;
+
+INSERT INTO Student3(name,charger_id) VALUES ("alvin1",2),
+                                            ("alvin2",4),
+                                            ("alvin3",1),
+                                            ("alvin4",3),
+                                            ("alvin5",1),
+                                            ("alvin6",3),
+                                            ("alvin7",2);
+
+ALTER TABLE Student  ADD CONSTRAINT abc
+                     FOREIGN KEY(charger_id)
+                     REFERENCES  classcharger(id);
+
+# 多表查询
+select dept_name,emp_name from tableA,tableB where tableA.dept_id=tableB.dept_id and tableB.dept_name='技术部';
+
+
+select dept_name,emp_name,age from tableA,tableB where tableA.dept_id=tableB.dept_id and tableA.age>25;
+
+select * from tableA where dept_id in (select dept_id from tableB)
+
+
+
+# 索引
+create table test1(
+    id int primary key auto_increment,
+    name varchar(20),
+    resume text
+);
+
+insert into test1(name,resume) values ('诸葛亮','我是诸葛亮'),
+                                 ('妲己','我是妲己'),
+                                 ('貂蝉','我是貂蝉'),
+                                 ('卢布','我是卢布'),
+                                 ('程咬金','我是程咬金'),
+                                 ('狄仁杰','我是狄仁杰');
+
+# 创建普通索引
+create table emp(
+    id int,
+    name varchar(20),
+#     index 或着 key
+    index index_name (name)
+);
+# 创建多列索引
+create table emp(
+    id int,
+    name varchar(20),
+    resume varchar(20),
+#     index 或着 key
+    index index_name_resume (name,resume)
+)
+
 
 

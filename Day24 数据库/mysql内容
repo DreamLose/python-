@@ -612,6 +612,7 @@ mysql> select * from department;
 
 多表查询之连接查询:
 1.笛卡尔积查询
+
 mysql> SELECT * FROM employee,department;
 
 --        select employee.emp_id,employee.emp_name,employee.age,
@@ -794,6 +795,97 @@ mysql> SELECT * FROM employee,department;
               (SELECT dept_name from department where dept_id=205);
 
      -- Empty set (0.00 sec)    ps:  create table t1(select * from t2);
+
+
+
+########################
+索引
+#######################
+
+创建语法:
+create table 表名 (
+    字段1 数据类型 [完整性约束语句],
+    字段1 数据类型 [完整性约束语句],
+    [unique | fulltext | spatial] index | key
+    [索引名] (字段名[(长度)] [asc | desc])
+
+普通索引实例
+create table emp(
+    id int,
+    name varchar(20),
+    index index_name (name)
+    -- key index_name (name)
+);
+
+唯一索引实例
+create table emp(
+    id int,
+    name varchar(20),
+    unique index index_name (name)
+    -- key index_name (name)
+);
+
+全文索引实例
+create table emp(
+    id int,
+    name varchar(20),
+    fulltext index index_name (name)
+    -- key index_name (name)
+);
+# 创建多列索引
+create table emp(
+    id int,
+    name varchar(20),
+    resume varchar(20),
+#     index 或着 key
+    index index_name_resume (name,resume)
+)
+
+添加索引:
+create 在已存在的表上创建索引
+create [unique | fulltext | spatial] index 索引名 on 表名 (字段名[(长度hu)] [asc | desc]);
+alter table 在已存在的表上创建索引
+alter table 表名 add [unique | fulltext | spatial] index 索引名 (字段名[(长度hu)] [asc | desc]);
+
+例子:
+creat index index_name on emp1(name);
+alter table emp1 add unique index index_name(name);
+
+
+删除索引:
+drop index 索引名 on 表名
+drop index index_name on emp1;
+
+
+
+索引测试实验
+
+创建表:
+create table t1(id int,name varchar(20));
+
+存储过程:
+
+修改mysql 结束语标识
+delimiter $$
+
+create procedure autoinsert()
+begin
+declare i int default 1;
+while(i<500000) do
+insert into t1 values(i,'诸葛亮');
+set i=i+1;
+end while;
+end$$
+
+
+delimiter ;
+
+调用函数插入数据
+call autoinsert()
+
+
+
+
 
 
 
