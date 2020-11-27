@@ -100,5 +100,6 @@ create table emp(
     index index_name_resume (name,resume)
 )
 
+create table test(id int,name varchar(20))
 
 

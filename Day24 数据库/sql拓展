@@ -1,0 +1,375 @@
+python关于mysql的API－－pymysql模块
+
+pymsql是Python中操作MySQL的模块，其使用方法和py2的MySQLdb几乎相同。
+
+模块安装
+
+1
+pip install pymysql
+执行sql语句
+
+复制代码
+import pymysql
+
+#添加数据
+
+conn = pymysql.connect(host='127.0.0.1', port=3306, user='root', passwd='', db='yyy')
+
+cursor = conn.cursor()
+
+
+# sql = """CREATE TABLE EMPLOYEE (
+#          FIRST_NAME  CHAR(20) NOT NULL,
+#          LAST_NAME  CHAR(20),
+#          AGE INT,
+#          SEX CHAR(1),
+#          INCOME FLOAT )"""
+#
+# cursor.execute(sql)
+
+#row_affected = cursor.execute("create table t1(id INT ,name VARCHAR(20))")
+
+#row_affected=cursor.execute("INSERT INTO t1(id,name) values (1,'alvin'),(2,'xialv')")
+
+#cursor.execute("update t1 set name = 'silv2' where id=2")
+
+
+
+
+#查询数据
+row_affected=cursor.execute("select * from t1")
+one=cursor.fetchone()
+
+# many=cursor.fetchmany(2)
+# all=cursor.fetchall()
+
+
+
+#scroll
+#cursor.scroll(-1,mode='relative')  # 相对当前位置移动
+
+#cursor.scroll(2,mode='absolute') # 相对绝对位置移动
+
+
+#更改获取数据结果的数据类型,默认是元组,可以改为字典等:conn.cursor(cursor=pymysql.cursors.DictCursor)
+
+
+conn.commit()
+cursor.close()
+conn.close()
+
+
+
+事务
+
+事务命令
+
+事务指逻辑上的一组操作，组成这组操作的各个单元，要不全部成功，要不全部不成功。
+
+数据库开启事务命令
+
+--        start transaction 开启事务
+--        Rollback 回滚事务,即撤销指定的sql语句(只能回退insert delete update语句)，回滚到上一次commit的位置
+--        Commit 提交事务，提交未存储的事务
+--
+--        savepoint 保留点 ，事务处理中设置的临时占位符 你可以对它发布回退(与整个事务回退不同)
+转账实例：
+
+1
+2
+UPDATE account set balance=balance-5000 WHERE name=”yuan”;
+UPDATE account set balance=balance+5000 WHERE name=”xialv”;
+
+复制代码
+create table test2(id int PRIMARY KEY auto_increment,name VARCHAR(20)) engine=innodb;
+INSERT INTO test2(name) VALUE ("alvin"),
+                              ("yuan"),
+                              ("xialv");
+
+
+
+start transaction;
+insert into test2 (name)values('silv');
+select * from test2;
+commit;
+
+
+-- 保留点
+
+start transaction;
+insert into test2 (name)values('wu');
+savepoint insert_wu;
+select * from test2;
+
+
+
+delete from test2 where id=4;
+savepoint delete1;
+select * from test2;
+
+
+delete from test2 where id=1;
+savepoint delete2;
+select * from test2;
+
+rollback to delete1;
+
+
+select * from test2;
+复制代码
+python中调用数据库启动事务的方式
+
+
+复制代码
+import pymysql
+
+#添加数据
+
+conn = pymysql.connect(host='127.0.0.1', port=3306, user='root', passwd='', db='yyy')
+
+cursor = conn.cursor()
+
+
+try:
+    insertSQL0="INSERT INTO ACCOUNT2 (name,balance) VALUES ('oldboy',4000)"
+    insertSQL1="UPDATE account2 set balance=balance-30 WHERE name='yuan'"
+    insertSQL2="UPDATE account2 set balance=balance+30 WHERE name='xialv'"
+
+    cursor = conn.cursor()
+
+    cursor.execute(insertSQL0)
+    conn.commit()
+
+    cursor.execute(insertSQL1)
+    raise Exception
+    cursor.execute(insertSQL2)
+    cursor.close()
+    conn.commit()
+
+except Exception as e:
+
+    conn.rollback()
+    conn.commit()
+
+
+cursor.close()
+conn.close()
+复制代码
+事务特性
+
+<1> 原子性（Atomicity）：原子性是指事务是一个不可分割的工作单位，事务中的操作要么都发生，要么都不发生。
+
+<2> 一致性（Consistency）：事务前后数据的完整性必须保持一致。在事务执行之前数据库是符合数据完整性约束的，无论事务是否执行成功，事务结束后的数据库中的数据也应该是符合完整性约束的。在某一时间点，如果数据库中的所有记录都能保证满足当前数据库中的所有约束，则可以说当前的数据库是符合数据完整性约束的。
+比如删部门表前应该删掉关联员工（已经建立外键），如果数据库服务器发生错误，有一个员工没删掉，那么此时员工的部门表已经删除，那么就不符合完整性约束了，所以这样的数据库也就性能太差啦！
+
+<3>隔离性（Isolation）：事务的隔离性是指多个用户并发访问数据库时，一个用户的事务不能被其它用户的事务所干扰，多个并发事务之间数据要相互隔离。
+
+<4>持久性（Durability）：持久性是指一个事务一旦被提交，它对数据库中数据的改变就是永久性的，接下来即使数据库发生故障也不应该对其有任何影响。
+
+三、隔离性：
+将数据库设计为串行化程的数据库，让一张表在同一时间内只能有一个线程来操作。如果将数据库设计为这样，那数据库的效率太低了。所以数据库的设计这没有直接将数据库设计为串行化，而是为数据库提供多个隔离级别选项，使数据库的使用者可以根据使用情况自己定义到底需要什么样的隔离级别。
+
+不考虑隔离性可能出现的问题：
+
+脏读
+
+
+复制代码
+--一个事务读取到了另一个事务未提交的数据,这是特别危险的，要尽力防止。
+        a 1000
+        b 1000
+        a:
+            start transaction；
+            update set money=money+100 where name=b;
+        b:
+            start transaction;
+            select * from account where name=b;--1100
+            commit;
+        a:
+            rollback;
+        b:  start transaction;
+            select * from account where name=b;--1000
+复制代码
+不可重复读
+
+
+复制代码
+--在一个事务内读取表中的某一行数据，多次读取结果不同。（一个事务读取到了另一个事务已经提交
+-- 的数据--增加记录、删除记录、修改记录），在某写情况下并不是问题，在另一些情况下就是问题。
+
+a:
+start transaction;
+select 活期账户 from account where name=b;--1000    活期账户：1000
+select 定期账户 from account where name=b；--1000   定期账户:1000
+select 固定资产 from account where name=b；--1000   固定资产：1000
+------------------------------
+b:
+start transaction;
+update set money=0 where name=b;
+commit;
+------------------------------
+select 活期+定期+固定 from account where name=b; --2000 总资产： 2000
+
+虚读
+是指在一个事务内读取到了别的事务插入的数据，导致前后读取不一致。（一个事务读取到了另一个事务已经提交的数据---增加记录、删除记录），在某写情况下并不是问题，在另一些情况下就是问题。
+
+b 1000
+c 2000
+d 3000
+a:
+start transaction
+select sum(money) from account;---3000       3000
+-------------------
+d:start transaction;
+insert into account values(d,3000);
+commit;
+-------------------
+select count(*)from account;---3                         3
+3000/3 = 1000                                            1000
+复制代码
+四个隔离级别：
+Serializable：可避免脏读、不可重复读、虚读情况的发生。（串行化）
+Repeatable read：可避免脏读、不可重复读情况的发生。（可重复读）不可以避免虚读
+Read committed：可避免脏读情况发生（读已提交）
+Read uncommitted：最低级别，以上情况均无法保证。(读未提交)
+
+安全性考虑：Serializable>Repeatable read>Read committed>Read uncommitted
+数据库效率：Read uncommitted>Read committed>Repeatable read>Serializable
+
+一般情况下，我们会使用Repeatable read、Read committed mysql数据库默认的数据库隔离级别Repeatable read
+
+mysql中设置数据库的隔离级别语句：
+
+1
+set [global/session] transaction isolation level xxxx;
+如果使用global则修改的是数据库的默认隔离级别，所有新开的窗口的隔离级别继承自这个默认隔离级别如果使用session修改，则修改的是当前客户端的隔离级别，和数据库默认隔离级别无关。当前的客户端是什么隔离级别，就能防止什么隔离级别问题，和其他客户端是什么隔离级别无关。
+mysql中设置数据库的隔离级别语句：
+
+1
+select @@tx_isolation;
+回到顶部
+索引
+
+一 索引简介
+
+索引在MySQL中也叫做“键”，是存储引擎用于快速找到记录的一种数据结构。索引对于良好的性能非常关键，尤其是当表中的数据量越来越大时，索引对于性能的影响愈发重要。
+
+索引优化应该是对查询性能优化最有效的手段了。
+索引能够轻易将查询性能提高好几个数量级。
+索引相当于字典的音序表，如果要查某个字，如果不使用音序表，则需要从几百页中逐页去查。
+
+索引特点：创建与维护索引会消耗很多时间与磁盘空间，但查询速度大大提高！
+
+二 索引语法
+
+复制代码
+--创建表时
+--语法：
+    CREATE TABLE 表名 (
+                字段名1  数据类型 [完整性约束条件…],
+                字段名2  数据类型 [完整性约束条件…],
+                [UNIQUE | FULLTEXT | SPATIAL ]   INDEX | KEY
+                [索引名]  (字段名[(长度)]  [ASC |DESC])
+                );
+
+--------------------------------
+
+--创建普通索引示例：
+
+    CREATE TABLE emp1 (
+        id INT,
+        name VARCHAR(30) ,
+        resume VARCHAR(50),
+        INDEX index_emp_name (name)
+    --KEY index_dept_name (dept_name)
+        );
+
+
+
+--创建唯一索引示例：
+
+    CREATE TABLE emp2 (
+        id INT,
+        name VARCHAR(30) ,
+        bank_num CHAR(18) UNIQUE ,
+        resume VARCHAR(50),
+        UNIQUE INDEX index_emp_name (name)
+        );
+
+--创建全文索引示例：
+
+    CREATE TABLE emp3 (
+        id INT,
+        name VARCHAR(30) ,
+        resume VARCHAR(50),
+        FULLTEXT INDEX index_resume (resume)
+        );
+
+--创建多列索引示例：
+
+    CREATE TABLE emp4 (
+        id INT,
+        name VARCHAR(30) ,
+        resume VARCHAR(50),
+        INDEX index_name_resume (name, resume)
+        );
+
+
+
+---------------------------------
+
+---添加索引
+
+    ---CREATE在已存在的表上创建索引
+      CREATE  [UNIQUE | FULLTEXT | SPATIAL ]  INDEX  索引名
+              ON 表名 (字段名[(长度)]  [ASC |DESC]) ;
+
+    ---ALTER TABLE在已存在的表上创建索引
+
+      ALTER TABLE 表名 ADD  [UNIQUE | FULLTEXT | SPATIAL ] INDEX
+                    索引名 (字段名[(长度)]  [ASC |DESC]) ;
+
+
+
+     CREATE INDEX index_emp_name on emp1(name);
+     ALTER TABLE emp2 ADD UNIQUE INDEX index_bank_num(band_num);
+
+
+-- 删除索引
+
+    语法：DROP INDEX 索引名 on 表名
+
+    DROP INDEX index_emp_name on emp1;
+    DROP INDEX bank_num on emp2;
+复制代码
+ 三 索引测试实验
+
+复制代码
+--创建表
+create table Indexdb.t1(id int,name varchar(20));
+
+
+--存储过程
+
+delimiter $$
+create procedure autoinsert()
+BEGIN
+declare i int default 1;
+while(i<500000)do
+insert into Indexdb.t1 values(i,'yuan');
+set i=i+1;
+end while;
+END$$
+
+delimiter ;
+
+--调用函数
+call autoinsert();
+
+-- 花费时间比较：
+-- 创建索引前
+   select * from Indexdb.t1 where id=300000;--0.32s
+-- 添加索引
+   create index index_id on Indexdb.t1(id);
+-- 创建索引后
+   select * from Indexdb.t1 where id=300000;--0.00s
