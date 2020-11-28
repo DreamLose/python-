@@ -1,0 +1,118 @@
+{% load myTag %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .first{
+            color:red;
+        }
+    </style>
+</head>
+<body>
+<br>
+<h1>调用自定义filter,传参数只能传一个</h1>
+<h2>使用自定义filter的年纪:{{d.age}} 之后: {{d.age|filter_multi:3}}</h2>
+<br>
+<h1>调用自定义标签 不能用在控制语句中</h1>
+<h2>使用自定义filter的年纪:{{d.age}} 之后:
+
+{% simple_tag_multi d.age 3 %}
+</h2>
+<br>
+
+<h2>hello {{l}}</h2>
+<h1>hello {{l.1}}</h1>
+<h1>hello {{d}}</h1>
+<h1>hello {{d.age}}</h1>
+<h1>hello {{c}}</h1>
+<h1>hello {{c.name}}</h1>
+<!--过滤-->
+<h1>增加过后的年纪{{d.age|add:12}}</h1>
+<h1>{{test|capfirst}}</h1>
+<!--移除空格-->
+<h1>{{test1|cut:" "}}</h1>
+<!--<h1>{{t}}</h1>-->
+<h1>{{t|date:'Y-m-d'}}</h1>
+<h1>{{e|default:'空的'}}</h1>
+<!--渲染后台的标签-->
+<h1>{{a|safe}}</h1>
+<h1>{{dd|default_if_none:'我是None'}}</h1>
+<!--渲染后台的标签 方式二-->
+{% autoescape off %}
+<h1>{{a}}</h1>
+{% endautoescape %}
+
+<!--if 判断语句-->
+{% if d.age > 30 %}
+    {% if d.age < 40 %}
+       <h1>hello {{d.name}} 的年龄 {{d.age}} 大于30小于40 </h1>
+    {% else %}
+        <h1>hello {{d.name}}</h1>
+    {% endif %}
+{% elif d.age > 20 %}
+    <h1>hello {{d.name}} 的年龄 {{d.age}} 大于20 </h1>
+{% else %}
+    <h1>hello {{d.name}} 的年龄 {{d.age}} 小于20 </h1>
+{%endif%}
+
+
+<!--for循环-->
+
+
+{% for name in l %}
+<h1>{{ forloop.counter }}:{{name}}</h1>
+{% endfor %}
+
+<hr>
+<p>从零变例</p>
+{% for name in l %}
+<h1>{{ forloop.counter0 }}:{{name}}</h1>
+{% endfor %}
+
+<hr>
+<p>反着变例</p>
+{% for name in l %}
+<h1>{{ forloop.revcounter0 }}:{{name}}</h1>
+{% endfor %}
+
+<hr>
+<p>变例的第一个处理</p>
+{% for name in l %}
+    {% if forloop.first %}
+        <li class="first">
+    {% else %}
+        <li>
+    {% endif %}
+{{name}}
+</li>
+{% endfor %}
+
+<hr>
+<p>判断空</p>
+{% for name in e %}
+    {% if forloop.first %}
+        <li class="first">
+    {% else %}
+        <li>
+    {% endif %}
+{{name}}
+</li>
+<!--如果对象为空-->
+{% empty %}
+<h1>没有相关文章</h1>
+{% endfor %}
+
+<hr>
+<h1>要启用 django.middleware.csrf.CsrfViewMiddleware 这个中间件，在所有的 POST 表单元素时，需要加上一个 {% csrf_token %} 标签</h1>
+<form action="{% url 'login' %}" method="post">
+    <p>姓名:<input type="text" name="user"></p>
+    <p>密码:<input type="text" name="pwd"></p>
+    <p><input type="submit"></p>
+<!-- 可以提交post表单-->
+    {% csrf_token %}
+</form>
+
+</body>
+</html>

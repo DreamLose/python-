@@ -80,7 +80,7 @@ conn.close()
 UPDATE account set balance=balance-5000 WHERE name=”yuan”;
 UPDATE account set balance=balance+5000 WHERE name=”xialv”;
 
-复制代码
+
 create table test2(id int PRIMARY KEY auto_increment,name VARCHAR(20)) engine=innodb;
 INSERT INTO test2(name) VALUE ("alvin"),
                               ("yuan"),
@@ -116,11 +116,12 @@ rollback to delete1;
 
 
 select * from test2;
-复制代码
+
+
+
 python中调用数据库启动事务的方式
 
 
-复制代码
 import pymysql
 
 #添加数据
@@ -154,7 +155,7 @@ except Exception as e:
 
 cursor.close()
 conn.close()
-复制代码
+
 事务特性
 
 <1> 原子性（Atomicity）：原子性是指事务是一个不可分割的工作单位，事务中的操作要么都发生，要么都不发生。

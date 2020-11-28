@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <title>Title</title>
+</head>
+<body>
+<p class="red">hello {{name}} 第一次访问 {{t}} {{request.method}}</p>
+<!--<script src="/static/jquery-3.5.1.js"></script>-->
+<script src="{% static 'jquery-3.5.1.js' %}"></script>
+<script>
+    $('p').css('color','red')
+</script>
+</body>
+</html>

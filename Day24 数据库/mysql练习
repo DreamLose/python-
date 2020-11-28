@@ -103,3 +103,11 @@ create table emp(
 create table test(id int,name varchar(20))
 
 
+CREATE TABLE account(
+
+       id int,
+       name VARCHAR (20),
+       balance double
+
+)engine = innodb charset = utf8;
+insert into account values (1,'诸葛亮',8000),(2,'貂蝉',8000)

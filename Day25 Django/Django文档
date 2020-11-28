@@ -1,0 +1,797 @@
+博客:https://www.cnblogs.com/yuanchenqi/articles/6083427.html
+
+
+
+###########################
+django的流程和命令行工具
+###########################
+
+django实现流程:
+django
+#安装： pip3 install django
+
+      添加环境变量
+
+#1  创建project
+   django-admin startproject mysite
+
+   ---mysite
+
+      ---settings.py
+      ---url.py
+      ---wsgi.py
+
+   ---- manage.py(启动文件)
+
+#2  创建APP
+   python mannage.py startapp  app01
+
+#3  settings配置
+
+   TEMPLATES
+
+   STATICFILES_DIRS=(
+        os.path.join(BASE_DIR,"statics"),
+    )
+
+   STATIC_URL = '/static/'
+   #  我们只能用 STATIC_URL，但STATIC_URL会按着你的STATICFILES_DIRS去找#4  根据需求设计代码
+       url.py
+       view.py
+
+#5  使用模版
+   render(req,"index.html")
+
+#6  启动项目
+   python manage.py runserver  127.0.0.1:8090
+
+#7  连接数据库，操作数据
+   model.py
+###########################
+django的命令行工具
+###########################
+
+django-admin.py 是Django的一个用于管理任务的命令行工具，manage.py是对django－admin.py的简单包装,每一个Django Project里都会有一个mannage.py。
+
+<1> 创建一个django工程 : django-admin.py startproject mysite
+
+        当前目录下会生成mysite的工程，目录结构如下：
+
+manage.py ----- Django项目里面的工具，通过它可以调用django shell和数据库等。
+settings.py ---- 包含了项目的默认设置，包括数据库信息，调试标志以及其他一些工作的变量。
+urls.py ----- 负责把URL模式映射到应用程序。
+<2>在mysite目录下创建blog应用: python manage.py startapp blog
+
+<3>启动django项目：python manage.py runserver 8080
+
+   这样我们的django就启动起来了！当我们访问：http://127.0.0.1:8080/时就可以看到：
+
+
+
+<4>生成同步数据库的脚本：python manage.py makemigrations
+
+                     同步数据库:  python manage.py migrate
+
+       注意：在开发过程中，数据库同步误操作之后，难免会遇到后面不能同步成功的情况，解决这个问题的一个简单粗暴方法是把migrations目录下
+
+                的脚本（除__init__.py之外）全部删掉，再把数据库删掉之后创建一个新的数据库，数据库同步操作再重新做一遍。
+
+<5>当我们访问http://127.0.0.1:8080/admin/时，会出现：
+
+
+
+       所以我们需要为进入这个项目的后台创建超级管理员：python manage.py createsuperuser，设置好用户名和密码后便可登录啦！
+
+<6>清空数据库：python manage.py  flush
+
+<7>查询某个命令的详细信息： django-admin.py  help  startapp
+
+       admin 是Django 自带的一个后台数据库管理系统。
+
+<8>启动交互界面 ：python manage.py  shell
+
+     这个命令和直接运行 python 进入 shell 的区别是：你可以在这个 shell 里面调用当前项目的 models.py 中的 API，对于操作数据，还有一些小测试非常方便。
+
+<9> 终端上输入python manage.py 可以看到详细的列表，在忘记子名称的时候特别有用。
+
+
+###########################
+四 Django的配置文件(settings)
+###########################
+
+一、概述：
+
+     #静态文件交由Web服务器处理，Django本身不处理静态文件。简单的处理逻辑如下(以nginx为例)：
+
+     #          URI请求-----> 按照Web服务器里面的配置规则先处理，以nginx为例，主要求配置在nginx.
+                             #conf里的location
+
+                         |---------->如果是静态文件，则由nginx直接处理
+
+                         |---------->如果不是则交由Django处理，Django根据urls.py里面的规则进行匹配
+
+    # 以上是部署到Web服务器后的处理方式，为了便于开发，Django提供了在开发环境的对静态文件的处理机制，方法是这样：
+
+    #1、在INSTALLED_APPS里面加入'django.contrib.staticfiles',
+
+    #2、在urls.py里面加入
+       if settings.DEBUG:
+           urlpatterns += patterns('', url(r'^media/(?P<path>.*)$',
+           'django.views.static.serve', {'document_root': settings.MEDIA_ROOT }),
+            url(r'^static/(?P<path>.*)$',
+          'django.views.static.serve',{'document_root':settings.STATIC_ROOT}), )
+
+    # 3、这样就可以在开发阶段直接使用静态文件了。
+
+二、MEDIA_ROOT和MEDIA_URL
+
+        #而静态文件的处理又包括STATIC和MEDIA两类，这往往容易混淆，在Django里面是这样定义的：
+
+        #MEDIA:指用户上传的文件，比如在Model里面的FileFIeld，ImageField上传的文件。如果你定义
+
+        #MEDIA_ROOT=c:\temp\media，那么File=models.FileField(upload_to="abc/")＃，上传的文件就会被保存到c:\temp\media\abc
+        #eg：
+            class blog(models.Model):
+                   Title=models.charField(max_length=64)
+                   Photo=models.ImageField(upload_to="photo")
+        #     上传的图片就上传到c:\temp\media\photo，而在模板中要显示该文件，则在这样写
+        #在settings里面设置的MEDIA_ROOT必须是本地路径的绝对路径，一般是这样写:
+                 BASE_DIR= os.path.abspath(os.path.dirname(__file__))
+                 MEDIA_ROOT=os.path.join(BASE_DIR,'media/').replace('\\','/')
+
+        #MEDIA_URL是指从浏览器访问时的地址前缀，举个例子：
+            MEDIA_ROOT=c:\temp\media\photo
+            MEDIA_URL="/data/"
+        #在开发阶段,media的处理由django处理：
+
+        #    访问http://localhost/data/abc/a.png就是访问c:\temp\media\photo\abc\a.png
+
+        #    在模板里面这样写<img src="{{MEDIA_URL}}abc/a.png">
+
+        #    在部署阶段最大的不同在于你必须让web服务器来处理media文件，因此你必须在web服务器中配置，
+        #  以便能让web服务器能访问media文件
+        #    以nginx为例，可以在nginx.conf里面这样：
+
+                 location ~/media/{
+                       root/temp/
+                       break;
+                    }
+
+        #    具体可以参考如何在nginx部署django的资料。
+
+三、STATIC_ROOT和STATIC_URL、
+    STATIC主要指的是如css,js,images这样文件，在settings里面可以配置STATIC_ROOT和STATIC_URL,
+    配置方式与MEDIA_ROOT是一样的，但是要注意
+
+    #STATIC文件一般保存在以下位置：
+
+    #1、STATIC_ROOT：在settings里面设置，一般用来放一些公共的js,css,images等。
+
+    #2、app的static文件夹，在每个app所在文夹均可以建立一个static文件夹，然后当运行collectstatic时，
+    #    Django会遍历INSTALL_APPS里面所有app的static文件夹，将里面所有的文件复制到STATIC_ROOT。因此，
+    #   如果你要建立可复用的app，那么你要将该app所需要的静态文件放在static文件夹中。
+
+    # 也就是说一个项目引用了很多app，那么这个项目所需要的css,images等静态文件是分散在各个app的static文件的，比
+    #  较典型的是admin应用。当你要发布时，需要将这些分散的static文件收集到一个地方就是STATIC_ROOT。
+
+    #3、STATIC文件还可以配置STATICFILES_DIRS，指定额外的静态文件存储位置。
+    #  STATIC_URL的含义与MEDIA_URL类似。
+
+    # ----------------------------------------------------------------------------
+    #注意1:
+        #为了后端的更改不会影响前端的引入，避免造成前端大量修改
+
+        STATIC_URL = '/static/'               #引用名
+        STATICFILES_DIRS = (
+            BASE_DIR/'static',
+        )
+
+
+        #django对引用名和实际名进行映射,引用时,只能按照引用名来,不能按实际名去找
+        #<script src="/statics/jquery-3.1.1.js"></script>
+        #------error－－－－－不能直接用，必须用STATIC_URL = '/static/':
+        #<script src="/static/jquery-3.1.1.js"></script>
+
+    #注意2(statics文件夹写在不同的app下,静态文件的调用):
+
+        STATIC_URL = '/static/'
+
+        STATICFILES_DIRS=(
+            ('hello',os.path.join(BASE_DIR,"app01","statics")) ,
+        )
+
+        #<script src="/static/hello/jquery-1.8.2.min.js"></script>
+
+    #注意3:
+        STATIC_URL = '/static/'
+        {% load static %}
+       # <script src={% static "jquery-1.8.2.min.js" %}></script>
+
+其它重要参数设置：
+
+APPEND_SLASH
+       Default: True
+       When set to True, if the request URL does not match any of the patterns in the URLconf and it
+       doesn’t end in a slash, an HTTP redirect is issued to the same URL with a slash appended. Note
+       that the redirect may cause any data submitted in a POST request to be lost.
+
+###########################
+Django URL (路由系统)
+###########################
+
+ URL配置(URLconf)就像Django 所支撑网站的目录。它的本质是URL模式以及要为该URL模式调用的视图函数之间的映射表；你就是以这种方式告诉Django，对于这个URL调用这段代码，对于那个URL调用那段代码。
+urlpatterns = [
+    url(正则表达式, views视图函数，参数，别名),
+]
+
+参数说明：
+
+一个正则表达式字符串
+一个可调用对象，通常为一个视图函数或一个指定视图函数路径的字符串
+可选的要传递给视图函数的默认参数（字典形式）
+一个可选的name参数
+
+例子:
+from django.conf.urls import url
+from django.contrib import admin
+
+from app01 import views
+
+urlpatterns = [
+
+    url(r'^articles/2003/$', views.special_case_2003),
+
+    #url(r'^articles/[0-9]{4}/$', views.year_archive),
+
+    url(r'^articles/([0-9]{4})/$', views.year_archive),  #no_named group
+
+    url(r'^articles/([0-9]{4})/([0-9]{2})/$', views.month_archive),
+
+    url(r'^articles/([0-9]{4})/([0-9]{2})/([0-9]+)/$', views.article_detail),
+
+]
+
+
+
+----模板语法------------------------------------------------------------------
+
+一模版的组成
+
+组成：HTML代码＋逻辑控制代码
+
+二 逻辑控制代码的组成
+
+1  变量（使用双大括号来引用变量）：
+
+1
+语法格式：       {{var_name}}
+－－－－－－Template和Context对象
+
+
+复制代码
+>>> python manange.py shell  (进入该django项目的环境)
+>>> from django.template import Context, Template
+>>> t = Template('My name is {{ name }}.')
+>>> c = Context({'name': 'Stephane'})
+>>> t.render(c)
+'My name is Stephane.'
+
+
+# 同一模板，多个上下文，一旦有了模板对象，你就可以通过它渲染多个context，无论何时我们都可以
+# 像这样使用同一模板源渲染多个context，只进行 一次模板创建然后多次调用render()方法渲染会
+# 更为高效：
+# Low
+for name in ('John', 'Julie', 'Pat'):
+    t = Template('Hello, {{ name }}')
+    print t.render(Context({'name': name}))
+
+# Good
+t = Template('Hello, {{ name }}')
+for name in ('John', 'Julie', 'Pat'):
+    print t.render(Context({'name': name}))
+复制代码
+ Django 模板解析非常快捷。 大部分的解析工作都是在后台通过对简短正则表达式一次性调用来完成。 这和基于 XML 的模板引擎形成鲜明对比，那些引擎承担了 XML 解析器的开销，且往往比 Django 模板渲染引擎要慢上几个数量级。
+
+
+复制代码
+from django.shortcuts import render,HttpResponse
+from django.template.loader import get_template #记得导入
+# Create your views here.
+
+
+import datetime
+from django.template import Template,Context
+
+# def current_time(req):
+    #原始的视图函数
+    # now=datetime.datetime.now()
+    # html="<html><body>现在时刻：<h1>%s.</h1></body></html>" %now
+    # return HttpResponse(html)
+
+
+
+# def current_time(req):
+
+      #django模板修改的视图函数
+#     now=datetime.datetime.now()
+#     t=Template('<html><body>现在时刻是:<h1 style="color:red">{{current_date}}</h1></body></html>')
+      #t=get_template('current_datetime.html')
+#     c=Context({'current_date':now})
+#     html=t.render(c)
+#     return HttpResponse(html)
+
+#另一种写法(推荐)
+
+def current_time(req):
+
+    now=datetime.datetime.now()
+
+    return render(req, 'current_datetime.html', {'current_date':now})
+复制代码
+－－－－－－深度变量的查找（万能的句点号）
+
+在到目前为止的例子中，我们通过 context 传递的简单参数值主要是字符串，然而，模板系统能够非常简洁地处理更加复杂的数据结构，例如list、dictionary和自定义的对象。
+
+在 Django 模板中遍历复杂数据结构的关键是句点字符 (.)。
+
+
+复制代码
+#最好是用几个例子来说明一下。
+# 首先，句点可用于访问列表索引，例如：
+
+>>> from django.template import Template, Context
+>>> t = Template('Item 2 is {{ items.2 }}.')
+>>> c = Context({'items': ['apples', 'bananas', 'carrots']})
+>>> t.render(c)
+'Item 2 is carrots.'
+
+#假设你要向模板传递一个 Python 字典。 要通过字典键访问该字典的值，可使用一个句点：
+>>> from django.template import Template, Context
+>>> person = {'name': 'Sally', 'age': '43'}
+>>> t = Template('{{ person.name }} is {{ person.age }} years old.')
+>>> c = Context({'person': person})
+>>> t.render(c)
+'Sally is 43 years old.'
+
+#同样，也可以通过句点来访问对象的属性。 比方说， Python 的 datetime.date 对象有
+#year 、 month 和 day 几个属性，你同样可以在模板中使用句点来访问这些属性：
+
+>>> from django.template import Template, Context
+>>> import datetime
+>>> d = datetime.date(1993, 5, 2)
+>>> d.year
+1993
+>>> d.month
+5
+>>> d.day
+2
+>>> t = Template('The month is {{ date.month }} and the year is {{ date.year }}.')
+>>> c = Context({'date': d})
+>>> t.render(c)
+'The month is 5 and the year is 1993.'
+
+# 这个例子使用了一个自定义的类，演示了通过实例变量加一点(dots)来访问它的属性，这个方法适
+# 用于任意的对象。
+>>> from django.template import Template, Context
+>>> class Person(object):
+...     def __init__(self, first_name, last_name):
+...         self.first_name, self.last_name = first_name, last_name
+>>> t = Template('Hello, {{ person.first_name }} {{ person.last_name }}.')
+>>> c = Context({'person': Person('John', 'Smith')})
+>>> t.render(c)
+'Hello, John Smith.'
+
+# 点语法也可以用来引用对象的方法。 例如，每个 Python 字符串都有 upper() 和 isdigit()
+# 方法，你在模板中可以使用同样的句点语法来调用它们：
+>>> from django.template import Template, Context
+>>> t = Template('{{ var }} -- {{ var.upper }} -- {{ var.isdigit }}')
+>>> t.render(Context({'var': 'hello'}))
+'hello -- HELLO -- False'
+>>> t.render(Context({'var': '123'}))
+'123 -- 123 -- True'
+
+# 注意这里调用方法时并* 没有* 使用圆括号 而且也无法给该方法传递参数；你只能调用不需参数的
+# 方法。
+复制代码
+－－－－－－变量的过滤器(filter)的使用
+
+1
+语法格式：      {{obj|filter:param}}
+
+复制代码
+ # 1  add          ：   给变量加上相应的值
+   #
+   # 2  addslashes   :    给变量中的引号前加上斜线
+   #
+   # 3  capfirst     :    首字母大写
+   #
+   # 4  cut          ：   从字符串中移除指定的字符
+   #
+   # 5  date         ：   格式化日期字符串
+   #
+   # 6  default      ：   如果值是False,就替换成设置的默认值，否则就是用本来的值
+   #
+   # 7  default_if_none:  如果值是None，就替换成设置的默认值，否则就使用本来的值
+
+
+#实例:
+
+#value1="aBcDe"
+{{ value1|upper }}<br>
+
+#value2=5
+{{ value2|add:3 }}<br>
+
+#value3='he  llo wo r ld'
+{{ value3|cut:' ' }}<br>
+
+#import datetime
+#value4=datetime.datetime.now()
+{{ value4|date:'Y-m-d' }}<br>
+
+#value5=[]
+{{ value5|default:'空的' }}<br>
+
+#value6='<a href="#">跳转</a>'
+
+{{ value6 }}
+
+{% autoescape off %}
+  {{ value6 }}
+{% endautoescape %}
+
+{{ value6|safe }}<br>
+
+{{ value6|striptags }}
+
+#value7='1234'
+{{ value7|filesizeformat }}<br>
+{{ value7|first }}<br>
+{{ value7|length }}<br>
+{{ value7|slice:":-1" }}<br>
+
+#value8='http://www.baidu.com/?a=1&b=3'
+{{ value8|urlencode }}<br>
+    value9='hello I am yuan'
+复制代码
+2 标签(tag)的使用（使用大括号和百分比的组合来表示使用tag）
+
+1
+{% tags %}
+－－－－－－{% if %} 的使用
+
+{% if %}标签计算一个变量值，如果是“true”，即它存在、不为空并且不是false的boolean值,系统则会显示{% if %}和{% endif %}间的所有内容
+
+
+复制代码
+{% if num >= 100 and 8 %}
+
+    {% if num > 200 %}
+        <p>num大于200</p>
+    {% else %}
+        <p>num大于100小于200</p>
+    {% endif %}
+
+{% elif num < 100%}
+    <p>num小于100</p>
+
+{% else %}
+    <p>num等于100</p>
+
+{% endif %}
+
+
+
+{% if %} 标签接受and，or或者not来测试多个变量值或者否定一个给定的变量
+{% if %} 标签不允许同一标签里同时出现and和or，否则逻辑容易产生歧义，例如下面的标签是不合法的：
+
+{% if obj1 and obj2 or obj3 %}
+复制代码
+－－－－－－{% for %}的使用
+
+{% for %}标签允许你按顺序遍历一个序列中的各个元素,每次循环模板系统都会渲染{% for %}和{% endfor %}之间的所有内容
+
+
+复制代码
+<ul>
+{% for obj in list %}
+    <li>{{ obj.name }}</li>
+{% endfor %}
+</ul>
+
+
+#在标签里添加reversed来反序循环列表：
+
+    {% for obj in list reversed %}
+    ...
+    {% endfor %}
+
+#{% for %}标签可以嵌套：
+
+    {% for country in countries %}
+        <h1>{{ country.name }}</h1>
+        <ul>
+         {% for city in country.city_list %}
+            <li>{{ city }}</li>
+         {% endfor %}
+        </ul>
+    {% endfor %}
+
+
+#系统不支持中断循环，系统也不支持continue语句，{% for %}标签内置了一个forloop模板变量，
+#这个变量含有一些属性可以提供给你一些关于循环的信息
+
+1，forloop.counter表示循环的次数，它从1开始计数，第一次循环设为1:
+
+    {% for item in todo_list %}
+        <p>{{ forloop.counter }}: {{ item }}</p>
+    {% endfor %}
+2，forloop.counter0 类似于forloop.counter，但它是从0开始计数，第一次循环设为0
+3，forloop.revcounter
+4，forloop.revcounter0
+5，forloop.first当第一次循环时值为True，在特别情况下很有用：
+
+
+    {% for object in objects %}
+         {% if forloop.first %}<li class="first">{% else %}<li>{% endif %}
+         {{ object }}
+        </li>
+    {% endfor %}
+
+# 富有魔力的forloop变量只能在循环中得到，当模板解析器到达{% endfor %}时forloop就消失了
+# 如果你的模板context已经包含一个叫forloop的变量，Django会用{% for %}标签替代它
+# Django会在for标签的块中覆盖你定义的forloop变量的值
+# 在其他非循环的地方，你的forloop变量仍然可用
+
+
+#{% empty %}
+
+{{li }}
+      {%  for i in li %}
+          <li>{{ forloop.counter0 }}----{{ i }}</li>
+      {% empty %}
+          <li>this is empty!</li>
+      {% endfor %}
+
+#         [11, 22, 33, 44, 55]
+#            0----11
+#            1----22
+#            2----33
+#            3----44
+#            4----55
+复制代码
+－－－－－－{%csrf_token%}：csrf_token标签
+
+     用于生成csrf_token的标签，用于防治跨站攻击验证。注意如果你在view的index里用的是render_to_response方法，不会生效
+
+     其实，这里是会生成一个input标签，和其他表单标签一起提交给后台的。
+
+－－－－－－{% url %}:  引用路由配置的地址
+
+
+<form action="{% url "bieming"%}" >
+          <input type="text">
+          <input type="submit"value="提交">
+          {%csrf_token%}
+</form>
+－－－－－－{% with %}:用更简单的变量名替代复杂的变量名
+
+1
+{% with total=fhjsaldfhjsdfhlasdfhljsdal %} {{ total }} {% endwith %}
+－－－－－－{% verbatim %}: 禁止render
+
+1
+2
+3
+{% verbatim %}
+         {{ hello }}
+{% endverbatim %}
+－－－－－－{% load %}: 加载标签库
+
+3 自定义filter和simple_tag
+
+－－－－－－a、在app中创建templatetags模块(必须的)
+
+－－－－－－b、创建任意 .py 文件，如：my_tags.py
+
+
+复制代码
+from django import template
+from django.utils.safestring import mark_safe
+
+register = template.Library()   #register的名字是固定的,不可改变
+
+
+@register.filter
+def filter_multi(v1,v2):
+    return  v1 * v2
+
+
+@register.simple_tag
+def simple_tag_multi(v1,v2):
+    return  v1 * v2
+
+
+@register.simple_tag
+def my_input(id,arg):
+    result = "<input type='text' id='%s' class='%s' />" %(id,arg,)
+    return mark_safe(result)
+复制代码
+－－－－－－c、在使用自定义simple_tag和filter的html文件中导入之前创建的 my_tags.py ：{% load my_tags %}
+
+－－－－－－d、使用simple_tag和filter（如何调用）
+
+
+复制代码
+-------------------------------.html
+{% load xxx %}   #首行
+
+
+
+
+ # num=12
+{{ num|filter_multi:2 }} #24
+
+{{ num|filter_multi:"[22,333,4444]" }}
+
+
+{% simple_tag_multi 2 5 %}  参数不限,但不能放在if for语句中
+{% simple_tag_multi num 5 %}
+复制代码
+－－－－－－e、在settings中的INSTALLED_APPS配置当前app，不然django无法找到自定义的simple_tag.
+
+注意：
+
+filter可以用在if等语句后，simple_tag不可以
+
+
+{% if num|filter_multi:30 > 100 %}
+    {{ num|filter_multi:30 }}
+{% endif %}
+4 extend模板继承
+
+－－－－－－include 模板标签
+
+在讲解了模板加载机制之后，我们再介绍一个利用该机制的内建模板标签： {% include %} 。该标签允许在（模板中）包含其它的模板的内容。 标签的参数是所要包含的模板名称，可以是一个变量，也可以是用单/双引号硬编码的字符串。 每当在多个模板中出现相同的代码时，就应该考虑是否要使用 {% include %} 来减少重复。
+
+－－－－－－extend(继承)模板标签
+
+到目前为止，我们的模板范例都只是些零星的 HTML 片段，但在实际应用中，你将用 Django 模板系统来创建整个 HTML 页面。 这就带来一个常见的 Web 开发问题： 在整个网站中，如何减少共用页面区域（比如站点导航）所引起的重复和冗余代码？
+
+解决该问题的传统做法是使用 服务器端的 includes ，你可以在 HTML 页面中使用该指令将一个网页嵌入到另一个中。 事实上， Django 通过刚才讲述的 {% include %} 支持了这种方法。 但是用 Django 解决此类问题的首选方法是使用更加优雅的策略—— 模板继承 。
+
+本质上来说，模板继承就是先构造一个基础框架模板，而后在其子模板中对它所包含站点公用部分和定义块进行重载。
+
+让我们通过修改 current_datetime.html 文件，为 current_datetime 创建一个更加完整的模板来体会一下这种做法：
+
+
+复制代码
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+<head>
+    <title>The current time</title>
+</head>
+<body>
+    <h1>My helpful timestamp site</h1>
+    <p>It is now {{ current_date }}.</p>
+
+    <hr>
+    <p>Thanks for visiting my site.</p>
+</body>
+</html>
+复制代码
+这看起来很棒，但如果我们要为 hours_ahead 视图创建另一个模板会发生什么事情呢？
+
+
+复制代码
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+<head>
+    <title>Future time</title>
+</head>
+<body>
+    <h1>My helpful timestamp site</h1>
+    <p>In {{ hour_offset }} hour(s), it will be {{ next_time }}.</p>
+
+    <hr>
+    <p>Thanks for visiting my site.</p>
+</body>
+</html>　　
+复制代码
+很明显，我们刚才重复了大量的 HTML 代码。 想象一下，如果有一个更典型的网站，它有导航条、样式表，可能还有一些 JavaScript 代码，事情必将以向每个模板填充各种冗余的 HTML 而告终。
+
+解决这个问题的服务器端 include 方案是找出两个模板中的共同部分，将其保存为不同的模板片段，然后在每个模板中进行 include。 也许你会把模板头部的一些代码保存为 header.html 文件：
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+<head>
+你可能会把底部保存到文件 footer.html :
+
+
+<hr>
+    <p>Thanks for visiting my site.</p>
+</body>
+</html>
+对基于 include 的策略，头部和底部的包含很简单。 麻烦的是中间部分。 在此范例中，每个页面都有一个<h1>My helpful timestamp site</h1> 标题，但是这个标题不能放在 header.html 中，因为每个页面的 <title> 是不同的。 如果我们将 <h1> 包含在头部，我们就不得不包含 <title> ，但这样又不允许在每个页面对它进行定制。 何去何从呢？
+
+Django 的模板继承系统解决了这些问题。 你可以将其视为服务器端 include 的逆向思维版本。 你可以对那些不同 的代码段进行定义，而不是 共同 代码段。
+
+第一步是定义 基础模板,该框架之后将由子模板所继承。 以下是我们目前所讲述范例的基础模板：
+
+
+复制代码
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+<head>
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    <h1>My helpful timestamp site</h1>
+    {% block content %}{% endblock %}
+    {% block footer %}
+    <hr>
+    <p>Thanks for visiting my site.</p>
+    {% endblock %}
+</body>
+</html>
+复制代码
+这个叫做 base.html 的模板定义了一个简单的 HTML 框架文档，我们将在本站点的所有页面中使用。 子模板的作用就是重载、添加或保留那些块的内容。 （如果你一直按顺序学习到这里，保存这个文件到你的template目录下，命名为 base.html .）
+
+我们使用模板标签： {% block %} 。 所有的 {% block %} 标签告诉模板引擎，子模板可以重载这些部分。 每个{% block %}标签所要做的是告诉模板引擎，该模板下的这一块内容将有可能被子模板覆盖。
+
+现在我们已经有了一个基本模板，我们可以修改 current_datetime.html 模板来 使用它：
+
+
+复制代码
+{% extends "base.html" %}
+
+{% block title %}The current time{% endblock %}
+
+{% block content %}
+<p>It is now {{ current_date }}.</p>
+{% endblock %}
+复制代码
+再为 hours_ahead 视图创建一个模板，看起来是这样的：
+
+
+复制代码
+{% extends "base.html" %}
+
+{% block title %}Future time{% endblock %}
+
+{% block content %}
+<p>In {{ hour_offset }} hour(s), it will be {{ next_time }}.</p>
+{% endblock %}
+复制代码
+看起来很漂亮是不是？ 每个模板只包含对自己而言 独一无二 的代码。 无需多余的部分。 如果想进行站点级的设计修改，仅需修改 base.html ，所有其它模板会立即反映出所作修改。
+
+      以下是其工作方式：
+
+      在加载 current_datetime.html 模板时，模板引擎发现了 {% extends %} 标签， 注意到该模板是一个子模板。 模板引擎立即装载其父模板，即本例中的 base.html 。此时，模板引擎注意到 base.html 中的三个 {% block %} 标签，并用子模板的内容替换这些 block 。因此，引擎将会使用我们在 { block title %} 中定义的标题，对 {% block content %} 也是如此。 所以，网页标题一块将由{% block title %}替换，同样地，网页的内容一块将由 {% block content %}替换。
+
+     注意由于子模板并没有定义 footer 块，模板系统将使用在父模板中定义的值。 父模板 {% block %} 标签中的内容总是被当作一条退路。继承并不会影响到模板的上下文。 换句话说，任何处在继承树上的模板都可以访问到你传到模板中的每一个模板变量。你可以根据需要使用任意多的继承次数。 使用继承的一种常见方式是下面的三层法：
+
+   <1> 创建 base.html 模板，在其中定义站点的主要外观感受。 这些都是不常修改甚至从不修改的部分。
+   <2> 为网站的每个区域创建 base_SECTION.html 模板(例如, base_photos.html 和 base_forum.html )。这些模板对base.html 进行拓展，
+       并包含区域特定的风格与设计。
+   <3> 为每种类型的页面创建独立的模板，例如论坛页面或者图片库。 这些模板拓展相应的区域模板。
+      这个方法可最大限度地重用代码，并使得向公共区域（如区域级的导航）添加内容成为一件轻松的工作。
+
+以下是使用模板继承的一些诀窍：
+
+
+复制代码
+<1>如果在模板中使用 {% extends %} ，必须保证其为模板中的第一个模板标记。 否则，模板继承将不起作用。
+
+ <2>一般来说，基础模板中的 {% block %} 标签越多越好。 记住，子模板不必定义父模板中所有的代码块，因此
+    你可以用合理的缺省值对一些代码块进行填充，然后只对子模板所需的代码块进行（重）定义。 俗话说，钩子越
+    多越好。
+
+ <3>如果发觉自己在多个模板之间拷贝代码，你应该考虑将该代码段放置到父模板的某个 {% block %} 中。
+    如果你需要访问父模板中的块的内容，使用 {{ block.super }}这个标签吧，这一个魔法变量将会表现出父模
+    板中的内容。 如果只想在上级代码块基础上添加内容，而不是全部重载，该变量就显得非常有用了。
+
+ <4>不允许在同一个模板中定义多个同名的 {% block %} 。 存在这样的限制是因为block 标签的工作方式是双向的。
+    也就是说，block 标签不仅挖了一个要填的坑，也定义了在父模板中这个坑所填充的内容。如果模板中出现了两个
+    相同名称的 {% block %} 标签，父模板将无从得知要使用哪个块的内容。
