@@ -53,3 +53,11 @@ def query(req):
     a = "<a href="">click</a>"
     dd = None
     return render(req,'query.html',locals())
+
+
+def backend(request):
+    return render(request,'base.html')
+
+def student(request):
+    student_list = ['诸葛亮','貂蝉','吕布','程咬金','张飞']
+    return render(request,'student2.html',locals())
