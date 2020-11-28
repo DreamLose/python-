@@ -30,6 +30,12 @@ OR
 -- net start mysql
 -- net stop  mysql
 
+
+安装成功之后，执行赋予局域网可以访问虚拟机上的mysql
+
+mysql>GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '123456' WITH GRANT OPTION;
+mysql> flush   privileges
+
 登陆与退出命令：
 --    mysql －h 服务器IP -P 端口号 -u  用户名 -p 密码 －－prompt 命令提示符  －－delimiter 指定分隔符
 --    mysql －h 127.0.0.1 -P 3306 -uroot -p123
