@@ -23,4 +23,5 @@ urlpatterns = [
     path('updata/',views.updata),
     path('deletebook/',views.deletebook),
     path('selectbook',views.selectBook),
+    path('manyTomany/',views.manyTomany),
 ]
