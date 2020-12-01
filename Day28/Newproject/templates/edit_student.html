@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>编辑用户{{ std_info.name }}</h1>
+<form action="/edit_students.html" method="post">
+    {% csrf_token %}
+    <p><input type="text" name="name" placeholder="学生名称" value="{{ std_info.name }}"></p>
+    <p><input type="text" name="age" placeholder="年龄" value="{{ std_info.age }}"></p>
+    <p>
+       男: <input type="radio" name="gender" value="1" {% if std_info.gender == 1 %} checked {% endif %} >
+        女: <input type="radio" name="gender" value="0" {% if std_info.gender == 0 %} checked {% endif %}>
+    </p>
+    <p><select name="cs">
+        {% for cs in cs_list %}
+        <option value="{{ cs.id }}" {% if std_info.cs.id == cs.id %} selected
+
+        {% endif %}  >{{ cs.title }}</option>
+        {% endfor %}
+        
+
+    </select></p>
+    <input type="hidden" value="{{ std_info.id }}" name="nid">
+    <input type="submit">
+    
+</form>
+</body>
+</html>

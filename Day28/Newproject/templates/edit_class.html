@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/edit_class.html" method="post">
+    {% csrf_token %}
+    <input type="text" name="title" value="{{ n_class.title }}">
+    <input type="hidden" name="nid" value="{{ n_class.id }}">
+    <input type="submit">
+</form>
+</body>
+</html>

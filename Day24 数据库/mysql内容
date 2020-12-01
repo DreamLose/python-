@@ -23,8 +23,8 @@ OR
 
 登录:
 -- mysql               #本地登录，默认用户root，空密码，用户为root@127.0.0.1
--- mysql -uroot -p1234 #本地登录，指定用户名和密码，用户为root@127.0.0.1
--- mysql -uroot -p1234 -h 192.168.31.95 #远程登录，用户为root@192.168.31.95
+-- mysql -uroot -p123456 #本地登录，指定用户名和密码，用户为root@127.0.0.1
+-- mysql -uroot -p123456 -h 192.168.31.95 #远程登录，用户为root@192.168.31.95
 
 启动mysql服务与停止mysql服务命令：
 -- net start mysql

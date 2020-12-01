@@ -1,0 +1,29 @@
+一.请求响应http
+    1.发送http请求
+    2.服务器接收,根据请求头中的url在路由关系表中进行匹配(从上到下)
+    3.匹配成功后,执行views中指定的函数
+        URL-->函数  ===>FBV
+        URL-->类  ===>CBV
+
+        views中
+        from django.views import View
+        class CBV(View):
+            #根据请求头中的request method 进行自动执行
+            def get(self,request):
+                return render(requset,'cbv.html')
+
+
+            def post(self,request):
+                return HttpResponse('CBV.POST')
+
+
+        URL配置
+        path('vbv$',views.CBV.as_view())
+    4.业务处理
+        --操作数据库
+            --原生sql
+            --Django ORM
+        ==>返回给用户的结果
+        --响应内容
+            --响应头
+            --响应体
