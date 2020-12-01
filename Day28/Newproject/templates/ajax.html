@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .btn{
+            display :inline-block;
+            padding: 5px 15px;
+            background-color: darkgoldenrod;
+            color:white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div>
+
+    <p><input type="text" name="username" id="username"></p>
+    <p><input type="password" name="pwd" id="pwd"></p>
+    <div class="btn" onclick="submitForm()">提交</div>
+</div>
+<script src="/static/jquery-3.5.1.js"></script>
+<script>
+    function submitForm(){
+        var data_dict = {'username':$('#username').val(),'pwd':$('#pwd').val()}
+        $.ajax({
+            url:'/ajax2/',
+            type:'GET',
+            data:data_dict,
+            success:function (arg){
+                console.log(arg)
+                window.location.reload()
+            }
+        })
+    }
+</script>
+</body>
+
+
+</html>

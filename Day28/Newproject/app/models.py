@@ -9,7 +9,7 @@ class Classes(models.Model):
     """
     title = models.CharField(max_length=32)
 
-    teacher = models.ManyToManyField('Teachers', )  # 多对多
+    teacher = models.ManyToManyField('Teachers')  # 多对多
 
     def __str__(self):
         return self.title
@@ -77,7 +77,7 @@ class Student(models.Model):
     name = models.CharField(max_length=32)
     age = models.IntegerField()
     gender = models.BooleanField()
-    # d班级
+    # 班级
     cs = models.ForeignKey(Classes, on_delete=models.CASCADE)  # 一对多
 
 
@@ -85,5 +85,11 @@ class Student(models.Model):
 1.类代表数据库的表
 2.类的对象代指数据库中的一行数据
 3.ForeignKey字段代表关联表中的一行数据
-4.ManyToManyField字段自动生成第三张表,依赖关联表对第三张表间接操作
+4.  --正向查找,用FK字段
+    --反向查询(一般不推荐),用小写类名加 _set(默认)
+    修改默认__set
+    cs = models.ForeignKey(Classes, on_delete=models.CASCADE,re,related_name='sss')
+    __set ===>'sss'
+5.ManyToManyField字段自动生成第三张表,依赖关联表对第三张表间接操作
+
 """

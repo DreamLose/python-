@@ -15,6 +15,7 @@
         <tr>
             <th>ID</th>
             <th>名称</th>
+            <th>任课老师</th>
             <th>操作</th>
         </tr>
         </thead>
@@ -23,7 +24,17 @@
             <tr>
             <td>{{ forloop.counter }}</td>
             <td>{{ row.title }}</td>
-            <td><a href="/del_class.html?nid={{ row.id }}">删除</a> | <a href="/edit_class.html?nid={{ row.id }}">编辑</a></td>
+            <td>
+            {% for item in row.teacher.all %}
+                <span>{{ item.name }}</span>
+                {% endfor %}
+            </td>
+            <td><a href="/del_class.html?nid={{ row.id }}">删除</a>
+                |
+                <a href="/edit_class.html?nid={{ row.id }}">编辑</a>
+                |
+                <a href="/set_teacher.html?nid={{ row.id }}">分配老师</a>
+            </td>
             </tr>
 
         {% endfor %}
@@ -33,4 +44,5 @@
 </div>
 
 </body>
+
 </html>
