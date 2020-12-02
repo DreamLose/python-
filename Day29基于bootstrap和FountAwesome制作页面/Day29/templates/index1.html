@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<ul>
+    {% for row in post.object_list %}
+    <li>{{ row.name }} - {{ row.age }} </li>
+    {% endfor %}
+    
+</ul>
+{% include 'include/pager.html' %}
+</body>
+</html>

@@ -1,0 +1,30 @@
+1.
+$.ajax({
+    url:
+    type:
+    data:
+    success:function(arg){
+
+    }
+})
+
+2.Model操作
+    a.类-->数据库
+       字段-->一列
+       对象-->一行数据
+    b.
+        -单表
+        -一对多   (FK代指关系表中的一行数据 __跨表)
+        -多对多   (M2M字段)
+    c
+        数据库获取数据
+            -[obj,obj]   .all  .filter
+            -[{},{}]     .values
+            -[(),()]     .values_list
+3.
+
+    select 标签
+    --单选
+    $(sel.val('value值'))
+    --多选
+    $(sel.val(['value值']))

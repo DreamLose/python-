@@ -1,0 +1,28 @@
+分页组件
+
+---Django内置分页
+    --Paginator,Page
+    --页面  include
+    from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
+    """
+    paginater 对象
+
+    # 全部数据 :USER_LIST   ->得出一共多少数据
+    # 10 每页显示的条数
+    count:数据总个数
+    num_pages:总页数
+    page_range:总页数的索引范围
+    page:  page对象(是否有下一页,是否有上一页)
+    """
+    paginiator = Paginator(USER_LIST,10)
+    """
+    page对象
+    has_next:是否有下一页
+    next_page_number  下一页页码
+    has_previous: 是否有上一页
+    previous_page_number: 上一页页码
+    object_list:分页好的数据列表,已经切片好的数据
+    number:当前页
+    paginater: paginater 对象
+    """
+    posts = paginiator.page(current_page)
