@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from app01 import views
+from app02 import views as v2
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('students/',views.students),
@@ -24,5 +25,7 @@ urlpatterns = [
     path('edit_student/',views.edit_student),
     path('index/',views.index),
     path('index1/', views.index1),
+    path('index2/', views.index2),
+    path('form1/', v2.form1),
 
 ]

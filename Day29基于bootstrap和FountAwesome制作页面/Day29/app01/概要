@@ -26,3 +26,10 @@
     paginater: paginater 对象
     """
     posts = paginiator.page(current_page)
+
+
+
+3.Form 组件
+
+        --用户请求的验证
+        --生成html代码
