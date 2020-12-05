@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/upload.html" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="text" name="user">
+    <div style="position: relative">
+        <a>牛逼的上传按钮</a>
+    <input type="file" name="img" style="opacity: 0.2;position:relative;top: 0;left: 0">
+        </div>
+    <input type="submit" value="上传文件">
+</form>
+
+<script>
+    var v = 123
+    function foo(){
+        var v = 456
+        function inner(){
+            console.log(v)
+            return v
+        }
+        return inner
+    }
+    result =foo()
+    console.log(result())
+
+
+
+
+</script>
+</body>
+
+</html>
+

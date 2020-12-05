@@ -1,0 +1,30 @@
+创建数据库
+    .related_name
+    .related_query_name
+    # 表和表之间可以自关联
+            --多对多自关联 -- >互粉 related_name
+            --一对多自关联  -->评论楼 related_name
+
+
+
+
+操作数据库
+      .all
+      .values
+      .values_list
+      .delete
+      .filter
+      .update
+      .create
+      .m.add
+      .m.set
+      .m.clear
+      .m.remove
+      .only
+      .defer
+      .extra
+      .raw
+      原生SQL
+      性能相关
+            select_related
+            prefetch_related
