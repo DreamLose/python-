@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .btn{
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: coral;
+            color: white;
+        }
+        a{
+            cursor: pointer;
+        }
+    </style>
+
+
+</head>
+<body>
+<h1>Ajax 全套</h1>
+<h3>1.jQuery Ajax get/POST请求</h3>
+<div>
+    <a class="btn" onclick="AjaxSubmit()">点我GET</a>
+     <a class="btn" onclick="AjaxSubmit2()">点我POST</a>
+</div>
+<h3>自己实现 Ajax get/POST请求</h3>
+<div>
+    <a class="btn" onclick="AjaxSubmit3()">点我GET</a>
+     <a class="btn" onclick="AjaxSubmit4()">点我POST</a>
+</div>
+<h3>通过iframe和from伪造 Ajax get/POST请求</h3>
+<div>
+{#    <h6>学习iframe</h6>#}
+{#    <div>#}
+{#    <input id="url" type="text" placeholder="请输入url"><a onclick="Test1()"><a>查看</a>#}
+{#    </div>#}
+{#    <iframe id="iframe" src="http://www.baidu.com" frameborder="0" style="height: 800px;width: 600px;"></iframe>#}
+    <h6>基于Iframe+Form表单</h6>
+    <iframe id="iframe" name="ifr"></iframe>
+    <form id="fm" action="/ajax1.html" method="post" target="ifr">
+        <input type="text" name="root" value="1111">
+        <a onclick="AjaxSubmit5();">提交</a>
+{#        <input type="submit" value="提交">#}
+    </form>
+
+    <h3>Ajax 上传文件</h3>
+    <input type="file" id="img">
+    <a class="btn" onclick="AjaxSubmit6()">上传</a>
+     <a class="btn" onclick="AjaxSubmit7()">上传</a>
+    <div>
+     <iframe id="iframe1" name="ifr1"></iframe>
+    <form id="fm1" action="/ajax1.html" method="post" target="ifr1" enctype="multipart/form-data">
+        <input type="text" name="k1">
+        <input type="text" name="k2">
+        <input type="file" name="k3">
+        <a onclick="AjaxSubmit8();">提交</a>
+{#        <input type="submit" value="提交">#}
+    </form>
+        </div>
+</div>
+<script src="/static/jquery-3.5.1.js"></script>
+<script>
+    function AjaxSubmit(){
+        $.ajax({
+            url:'/ajax1.html',
+            type:'GET',
+            data:{'p':123},
+            success:function (arg){
+                console.log(arg)
+            }
+            }
+
+        )
+    }
+    function AjaxSubmit2(){
+        $.ajax({
+            url:'/ajax1.html',
+            type:'POST',
+            data:{'p':123},
+            success:function (arg){
+                console.log(arg)
+            }
+            }
+
+        )
+    }
+    function AjaxSubmit3(){
+        {#创建对象#}
+        var xhr = new XMLHttpRequest()
+        {#状态改变:#}
+        {#0-未初始化,尚未调用open()方法;#}
+        {#1-启动,调用了open()方法,未调用send()方法#}
+        {#2-发送,已经调用了send()方法,未接收到响应#}
+        {#3-接收,已经接收到部分响应数据#}
+        {#4-完成,已经接收到全部响应数据#}
+         xhr.onreadystatechange = function (){
+            if(xhr.readyState==4){
+                console.log(xhr.responseText)
+            }
+        }
+        {#建立连接#}
+        xhr.open('GET','/ajax1.html?p=123')
+        {#发送数据#}
+        xhr.send(null)
+    }
+     function AjaxSubmit4(){
+        {#创建对象#}
+        var xhr = new XMLHttpRequest()
+        {#状态改变:#}
+        {#0-未初始化,尚未调用open()方法;#}
+        {#1-启动,调用了open()方法,未调用send()方法#}
+        {#2-发送,已经调用了send()方法,未接收到响应#}
+        {#3-接收,已经接收到部分响应数据#}
+        {#4-完成,已经接收到全部响应数据#}
+         xhr.onreadystatechange = function (){
+            if(xhr.readyState==4){
+                console.log(xhr.responseText)
+            }
+        }
+        {#建立连接#}
+        xhr.open('POST','/ajax1.html')
+         {#设置请求头,post 必须带着请求头#}
+         xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded;charest-UTF-8')
+        {#发送数据#}
+        xhr.send('p=345')
+    }
+
+    function AjaxSubmit5(){
+        console.log('11111')
+        document.getElementById('iframe').onload = reloadIfram;
+        document.getElementById('fm').submit()
+        {#document#}
+    }
+    function reloadIfram(){
+        console.log('进入reloadIfram')
+        {#console.log(this.contentWindow.document.body)#}
+         console.log(this.contentWindow.document.body.innerHTML)
+         console.log($(this).contents().find('body').html())
+        {#ths.contentWindow#}
+    }
+
+    function AjaxSubmit6(){
+            var data = new FormData
+            data.append('k1','v1')
+            data.append('k2',document.getElementById('img').files[0])
+             $.ajax({
+                url:'/ajax1.html',
+                type:'POST',
+                data:data,
+                success:function (arg){
+                    console.log(arg)
+                },
+                 processData:false,
+                 contentType:false,
+             })
+        }
+    function AjaxSubmit7(){
+        var data = new FormData
+        data.append('k1','v1')
+        data.append('k2',document.getElementById('img').files[0])
+        var xhr = new XMLHttpRequest()
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4){
+                console.log(xhr.responseText)
+            }
+        }
+        xhr.open('post','/ajax1.html')
+        xhr.send(data)
+    }
+    function AjaxSubmit8(){
+        document.getElementById('iframe1').onload = reloadIfram1;
+        document.getElementById('fm1').submit()
+    }
+    function reloadIfram1(){
+        {#this.#}
+
+         console.log(this.contentWindow.document.body.innerHTML)
+         console.log($(this).contents().find('body').html())
+        {#ths.contentWindow#}
+    }
+
+    function Test1(){
+        var url = $('#url').val()
+        $('#iframe').attr('src',url)
+    }
+</script>
+</body>
+</html>

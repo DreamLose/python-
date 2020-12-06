@@ -1,0 +1,689 @@
+Python开发【第十六篇】：AJAX全套
+https://www.cnblogs.com/wupeiqi/articles/5703697.html
+概述
+对于WEB应用程序：用户浏览器发送请求，服务器接收并处理请求，然后返回结果，往往返回就是字符串（HTML），浏览器将字符串（HTML）渲染并显示浏览器上。
+1、传统的Web应用
+一个简单操作需要重新加载全局数据
+2、AJAX
+AJAX，Asynchronous JavaScript and XML (异步的JavaScript和XML)，一种创建交互式网页应用的网页开发技术方案。
+异步的JavaScript：
+使用 【JavaScript语言】 以及 相关【浏览器提供类库】 的功能向服务端发送请求，当服务端处理完请求之后，【自动执行某个JavaScript的回调函数】。
+PS：以上请求和响应的整个过程是【偷偷】进行的，页面上无任何感知。
+XML
+XML是一种标记语言，是Ajax在和后台交互时传输数据的格式之一
+利用AJAX可以做：
+1、注册时，输入用户名自动检测用户是否已经存在。
+2、登陆时，提示用户名密码错误
+3、删除数据行时，将行ID发送到后台，后台在数据库中删除，数据库删除成功后，在页面DOM中将数据行也删除。（博客园）
+“伪”AJAX
+由于HTML标签的iframe标签具有局部加载内容的特性，所以可以使用其来伪造Ajax请求。
+
+<!DOCTYPE html>
+<html>
+
+    <head lang="en">
+        <meta charset="UTF-8">
+        <title></title>
+    </head>
+
+    <body>
+
+        <div>
+            <p>请输入要加载的地址：<span id="currentTime"></span></p>
+            <p>
+                <input id="url" type="text" />
+                <input type="button" value="刷新" onclick="LoadPage();">
+            </p>
+        </div>
+
+
+        <div>
+            <h3>加载页面位置：</h3>
+            <iframe id="iframePosition" style="width: 100%;height: 500px;"></iframe>
+        </div>
+
+
+        <script type="text/javascript">
+
+            window.onload= function(){
+                var myDate = new Date();
+                document.getElementById('currentTime').innerText = myDate.getTime();
+
+            };
+
+            function LoadPage(){
+                var targetUrl =  document.getElementById('url').value;
+                document.getElementById("iframePosition").src = targetUrl;
+            }
+
+        </script>
+
+    </body>
+</html>
+原生AJAX
+Ajax主要就是使用 【XmlHttpRequest】对象来完成请求的操作，该对象在主流浏览器中均存在(除早起的IE)，Ajax首次出现IE5.5中存在（ActiveX控件）。
+1、XmlHttpRequest对象介绍
+XmlHttpRequest对象的主要方法：
+
+a. void open(String method,String url,Boolen async)
+   用于创建请求
+
+   参数：
+       method： 请求方式（字符串类型），如：POST、GET、DELETE...
+       url：    要请求的地址（字符串类型）
+       async：  是否异步（布尔类型）
+
+b. void send(String body)
+    用于发送请求
+
+    参数：
+        body： 要发送的数据（字符串类型）
+
+c. void setRequestHeader(String header,String value)
+    用于设置请求头
+
+    参数：
+        header： 请求头的key（字符串类型）
+        vlaue：  请求头的value（字符串类型）
+
+d. String getAllResponseHeaders()
+    获取所有响应头
+
+    返回值：
+        响应头数据（字符串类型）
+
+e. String getResponseHeader(String header)
+    获取响应头中指定header的值
+
+    参数：
+        header： 响应头的key（字符串类型）
+
+    返回值：
+        响应头中指定的header对应的值
+
+f. void abort()
+
+    终止请求
+XmlHttpRequest对象的主要属性：
+a. Number readyState
+   状态值（整数）
+
+   详细：
+      0-未初始化，尚未调用open()方法；
+      1-启动，调用了open()方法，未调用send()方法；
+      2-发送，已经调用了send()方法，未接收到响应；
+      3-接收，已经接收到部分响应数据；
+      4-完成，已经接收到全部响应数据；
+
+b. Function onreadystatechange
+   当readyState的值改变时自动触发执行其对应的函数（回调函数）
+
+c. String responseText
+   服务器返回的数据（字符串类型）
+
+d. XmlDocument responseXML
+   服务器返回的数据（Xml对象）
+
+e. Number states
+   状态码（整数），如：200、404...
+
+f. String statesText
+   状态文本（字符串），如：OK、NotFound...
+2、跨浏览器支持
+XmlHttpRequest
+IE7+, Firefox, Chrome, Opera, etc.
+ActiveXObject("Microsoft.XMLHTTP")
+IE6, IE5
+
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+    <h1>XMLHttpRequest - Ajax请求</h1>
+    <input type="button" onclick="XmlGetRequest();" value="Get发送请求" />
+    <input type="button" onclick="XmlPostRequest();" value="Post发送请求" />
+
+    <script src="/statics/jquery-1.12.4.js"></script>
+    <script type="text/javascript">
+
+        function GetXHR(){
+            var xhr = null;
+            if(XMLHttpRequest){
+                xhr = new XMLHttpRequest();
+            }else{
+                xhr = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            return xhr;
+
+        }
+
+        function XhrPostRequest(){
+            var xhr = GetXHR();
+            // 定义回调函数
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState == 4){
+                    // 已经接收到全部响应数据，执行以下操作
+                    var data = xhr.responseText;
+                    console.log(data);
+                }
+            };
+            // 指定连接方式和地址----文件方式
+            xhr.open('POST', "/test/", true);
+            // 设置请求头
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset-UTF-8');
+            // 发送请求
+            xhr.send('n1=1;n2=2;');
+        }
+
+        function XhrGetRequest(){
+            var xhr = GetXHR();
+            // 定义回调函数
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState == 4){
+                    // 已经接收到全部响应数据，执行以下操作
+                    var data = xhr.responseText;
+                    console.log(data);
+                }
+            };
+            // 指定连接方式和地址----文件方式
+            xhr.open('get', "/test/", true);
+            // 发送请求
+            xhr.send();
+        }
+
+    </script>
+
+</body>
+</html>
+
+jQuery Ajax
+jQuery其实就是一个JavaScript的类库，其将复杂的功能做了上层封装，使得开发者可以在其基础上写更少的代码实现更多的功能。
+jQuery 不是生产者，而是大自然搬运工。
+jQuery Ajax本质 XMLHttpRequest 或 ActiveXObject
+注：2.+版本不再支持IE9以下的浏览器
+
+
+            jQuery.get(...)
+                所有参数：
+                     url: 待载入页面的URL地址
+                    data: 待发送 Key/value 参数。
+                 success: 载入成功时回调函数。
+                dataType: 返回内容格式，xml, json,  script, text, html
+
+
+            jQuery.post(...)
+                所有参数：
+                     url: 待载入页面的URL地址
+                    data: 待发送 Key/value 参数
+                 success: 载入成功时回调函数
+                dataType: 返回内容格式，xml, json,  script, text, html
+
+
+            jQuery.getJSON(...)
+                所有参数：
+                     url: 待载入页面的URL地址
+                    data: 待发送 Key/value 参数。
+                 success: 载入成功时回调函数。
+
+
+            jQuery.getScript(...)
+                所有参数：
+                     url: 待载入页面的URL地址
+                    data: 待发送 Key/value 参数。
+                 success: 载入成功时回调函数。
+
+
+            jQuery.ajax(...)
+
+                部分参数：
+
+                        url：请求地址
+                       type：请求方式，GET、POST（1.9.0之后用method）
+                    headers：请求头
+                       data：要发送的数据
+                contentType：即将发送信息至服务器的内容编码类型(默认: "application/x-www-form-urlencoded; charset=UTF-8")
+                      async：是否异步
+                    timeout：设置请求超时时间（毫秒）
+
+                 beforeSend：发送请求前执行的函数(全局)
+                   complete：完成之后执行的回调函数(全局)
+                    success：成功之后执行的回调函数(全局)
+                      error：失败之后执行的回调函数(全局)
+
+
+                    accepts：通过请求头发送给服务器，告诉服务器当前客户端课接受的数据类型
+                   dataType：将服务器端返回的数据转换成指定类型
+                                   "xml": 将服务器端返回的内容转换成xml格式
+                                  "text": 将服务器端返回的内容转换成普通文本格式
+                                  "html": 将服务器端返回的内容转换成普通文本格式，在插入DOM中时，如果包含JavaScript标签，则会尝试去执行。
+                                "script": 尝试将返回值当作JavaScript去执行，然后再将服务器端返回的内容转换成普通文本格式
+                                  "json": 将服务器端返回的内容转换成相应的JavaScript对象
+                                 "jsonp": JSONP 格式
+                                          使用 JSONP 形式调用函数时，如 "myurl?callback=?" jQuery 将自动替换 ? 为正确的函数名，以执行回调函数
+
+                                  如果不指定，jQuery 将自动根据HTTP包MIME信息返回相应类型(an XML MIME type will yield XML, in 1.4 JSON will yield a JavaScript object, in 1.4 script will execute the script, and anything else will be returned as a string
+
+                 converters： 转换器，将服务器端的内容根据指定的dataType转换类型，并传值给success回调函数
+                         $.ajax({
+                              accepts: {
+                                mycustomtype: 'application/x-some-custom-type'
+                              },
+
+                              // Expect a `mycustomtype` back from server
+                              dataType: 'mycustomtype'
+
+                              // Instructions for how to deserialize a `mycustomtype`
+                              converters: {
+                                'text mycustomtype': function(result) {
+                                  // Do Stuff
+                                  return newresult;
+                                }
+                              },
+                            });
+
+
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+    <p>
+        <input type="button" onclick="XmlSendRequest();" value='Ajax请求' />
+    </p>
+
+
+    <script type="text/javascript" src="jquery-1.12.4.js"></script>
+    <script>
+
+        function JqSendRequest(){
+            $.ajax({
+                url: "http://c2.com:8000/test/",
+                type: 'GET',
+                dataType: 'text',
+                success: function(data, statusText, xmlHttpRequest){
+                    console.log(data);
+                }
+            })
+        }
+
+
+    </script>
+</body>
+</html>
+
+跨域AJAX
+由于浏览器存在同源策略机制，同源策略阻止从一个源加载的文档或脚本获取或设置另一个源加载的文档的属性。
+特别的：由于同源策略是浏览器的限制，所以请求的发送和响应是可以进行，只不过浏览器不接受罢了。
+浏览器同源策略并不是对所有的请求均制约：
+制约： XmlHttpRequest
+不叼： img、iframe、script等具有src属性的标签
+跨域，跨域名访问，如：http://www.c1.com 域名向 http://www.c2.com域名发送请求。
+1、JSONP实现跨域请求
+JSONP（JSONP - JSON with Padding是JSON的一种“使用模式”)，利用script标签的src属性（浏览器允许script标签跨域）
+
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+    <p>
+        <input type="button" onclick="Jsonp1();"  value='提交'/>
+    </p>
+
+    <p>
+        <input type="button" onclick="Jsonp2();" value='提交'/>
+    </p>
+
+    <script type="text/javascript" src="jquery-1.12.4.js"></script>
+    <script>
+        function Jsonp1(){
+            var tag = document.createElement('script');
+            tag.src = "http://c2.com:8000/test/";
+            document.head.appendChild(tag);
+            document.head.removeChild(tag);
+
+        }
+
+        function Jsonp2(){
+            $.ajax({
+                url: "http://c2.com:8000/test/",
+                type: 'GET',
+                dataType: 'JSONP',
+                success: function(data, statusText, xmlHttpRequest){
+                    console.log(data);
+                }
+            })
+        }
+
+
+    </script>
+</body>
+</html>
+
+2、CORS
+随着技术的发展，现在的浏览器可以支持主动设置从而允许跨域请求，即：跨域资源共享（CORS，Cross-Origin Resource Sharing），其本质是设置响应头，使得浏览器允许跨域请求。
+* 简单请求 OR 非简单请求
+
+条件：
+    1、请求方式：HEAD、GET、POST
+    2、请求头信息：
+        Accept
+        Accept-Language
+        Content-Language
+        Last-Event-ID
+        Content-Type 对应的值是以下三个中的任意一个
+                                application/x-www-form-urlencoded
+                                multipart/form-data
+                                text/plain
+
+注意：同时满足以上两个条件时，则是简单请求，否则为复杂请求
+* 简单请求和非简单请求的区别？
+
+   简单请求：一次请求
+非简单请求：两次请求，在发送数据之前会先发一次请求用于做“预检”，只有“预检”通过后才再发送一次请求用于数据传输。
+* 关于“预检”
+
+- 请求方式：OPTIONS
+- “预检”其实做检查，检查如果通过则允许传输数据，检查不通过则不再发送真正想要发送的消息
+- 如何“预检”
+     => 如果复杂请求是PUT等请求，则服务端需要设置允许某请求，否则“预检”不通过
+        Access-Control-Request-Method
+     => 如果复杂请求设置了请求头，则服务端需要设置允许某请求头，否则“预检”不通过
+        Access-Control-Request-Headers
+
+基于cors实现AJAX请求:
+a、支持跨域，简单请求
+服务器设置响应头：Access-Control-Allow-Origin = '域名' 或 '*'
+
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+    <p>
+        <input type="submit" onclick="XmlSendRequest();" />
+    </p>
+
+    <p>
+        <input type="submit" onclick="JqSendRequest();" />
+    </p>
+
+    <script type="text/javascript" src="jquery-1.12.4.js"></script>
+    <script>
+        function XmlSendRequest(){
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState == 4) {
+                    var result = xhr.responseText;
+                    console.log(result);
+                }
+            };
+            xhr.open('GET', "http://c2.com:8000/test/", true);
+            xhr.send();
+        }
+
+        function JqSendRequest(){
+            $.ajax({
+                url: "http://c2.com:8000/test/",
+                type: 'GET',
+                dataType: 'text',
+                success: function(data, statusText, xmlHttpRequest){
+                    console.log(data);
+                }
+            })
+        }
+
+
+    </script>
+</body>
+</html>
+
+
+class MainHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.set_header('Access-Control-Allow-Origin', "http://www.xxx.com")
+        self.write('{"status": true, "data": "seven"}')
+b、支持跨域，复杂请求
+由于复杂请求时，首先会发送“预检”请求，如果“预检”成功，则发送真实数据。
+“预检”请求时，允许请求方式则需服务器设置响应头：Access-Control-Request-Method
+“预检”请求时，允许请求头则需服务器设置响应头：Access-Control-Request-Headers
+“预检”缓存时间，服务器设置响应头：Access-Control-Max-Age
+
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+    <p>
+        <input type="submit" onclick="XmlSendRequest();" />
+    </p>
+
+    <p>
+        <input type="submit" onclick="JqSendRequest();" />
+    </p>
+
+    <script type="text/javascript" src="jquery-1.12.4.js"></script>
+    <script>
+        function XmlSendRequest(){
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState == 4) {
+                    var result = xhr.responseText;
+                    console.log(result);
+                }
+            };
+            xhr.open('PUT', "http://c2.com:8000/test/", true);
+            xhr.setRequestHeader('k1', 'v1');
+            xhr.send();
+        }
+
+        function JqSendRequest(){
+            $.ajax({
+                url: "http://c2.com:8000/test/",
+                type: 'PUT',
+                dataType: 'text',
+                headers: {'k1': 'v1'},
+                success: function(data, statusText, xmlHttpRequest){
+                    console.log(data);
+                }
+            })
+        }
+
+
+    </script>
+</body>
+</html>
+
+
+
+class MainHandler(tornado.web.RequestHandler):
+
+    def put(self):
+        self.set_header('Access-Control-Allow-Origin', "http://www.xxx.com")
+        self.write('{"status": true, "data": "seven"}')
+
+    def options(self, *args, **kwargs):
+        self.set_header('Access-Control-Allow-Origin', "http://www.xxx.com")
+        self.set_header('Access-Control-Allow-Headers', "k1,k2")
+        self.set_header('Access-Control-Allow-Methods', "PUT,DELETE")
+        self.set_header('Access-Control-Max-Age', 10)
+
+c、跨域获取响应头
+默认获取到的所有响应头只有基本信息，如果想要获取自定义的响应头，则需要再服务器端设置Access-Control-Expose-Headers。
+
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+    <p>
+        <input type="submit" onclick="XmlSendRequest();" />
+    </p>
+
+    <p>
+        <input type="submit" onclick="JqSendRequest();" />
+    </p>
+
+    <script type="text/javascript" src="jquery-1.12.4.js"></script>
+    <script>
+        function XmlSendRequest(){
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState == 4) {
+                    var result = xhr.responseText;
+                    console.log(result);
+                    // 获取响应头
+                    console.log(xhr.getAllResponseHeaders());
+                }
+            };
+            xhr.open('PUT', "http://c2.com:8000/test/", true);
+            xhr.setRequestHeader('k1', 'v1');
+            xhr.send();
+        }
+
+        function JqSendRequest(){
+            $.ajax({
+                url: "http://c2.com:8000/test/",
+                type: 'PUT',
+                dataType: 'text',
+                headers: {'k1': 'v1'},
+                success: function(data, statusText, xmlHttpRequest){
+                    console.log(data);
+                    // 获取响应头
+                    console.log(xmlHttpRequest.getAllResponseHeaders());
+                }
+            })
+        }
+
+
+    </script>
+</body>
+</html>
+
+
+
+class MainHandler(tornado.web.RequestHandler):
+
+    def put(self):
+        self.set_header('Access-Control-Allow-Origin', "http://www.xxx.com")
+
+        self.set_header('xxoo', "seven")
+        self.set_header('bili', "daobidao")
+
+        self.set_header('Access-Control-Expose-Headers', "xxoo,bili")
+
+
+        self.write('{"status": true, "data": "seven"}')
+
+    def options(self, *args, **kwargs):
+        self.set_header('Access-Control-Allow-Origin', "http://www.xxx.com")
+        self.set_header('Access-Control-Allow-Headers', "k1,k2")
+        self.set_header('Access-Control-Allow-Methods', "PUT,DELETE")
+        self.set_header('Access-Control-Max-Age', 10)
+
+d、跨域传输cookie
+在跨域请求中，默认情况下，HTTP Authentication信息，Cookie头以及用户的SSL证书无论在预检请求中或是在实际请求都是不会被发送。
+如果想要发送：
+浏览器端：XMLHttpRequest的withCredentials为true
+服务器端：Access-Control-Allow-Credentials为true
+注意：服务器端响应的 Access-Control-Allow-Origin 不能是通配符 *
+
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+    <p>
+        <input type="submit" onclick="XmlSendRequest();" />
+    </p>
+
+    <p>
+        <input type="submit" onclick="JqSendRequest();" />
+    </p>
+
+    <script type="text/javascript" src="jquery-1.12.4.js"></script>
+    <script>
+        function XmlSendRequest(){
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState == 4) {
+                    var result = xhr.responseText;
+                    console.log(result);
+                }
+            };
+
+            xhr.withCredentials = true;
+
+            xhr.open('PUT', "http://c2.com:8000/test/", true);
+            xhr.setRequestHeader('k1', 'v1');
+            xhr.send();
+        }
+
+        function JqSendRequest(){
+            $.ajax({
+                url: "http://c2.com:8000/test/",
+                type: 'PUT',
+                dataType: 'text',
+                headers: {'k1': 'v1'},
+                xhrFields:{withCredentials: true},
+                success: function(data, statusText, xmlHttpRequest){
+                    console.log(data);
+                }
+            })
+        }
+
+
+    </script>
+</body>
+</html>
+
+
+
+class MainHandler(tornado.web.RequestHandler):
+
+    def put(self):
+        self.set_header('Access-Control-Allow-Origin', "http://www.xxx.com")
+        self.set_header('Access-Control-Allow-Credentials', "true")
+
+        self.set_header('xxoo', "seven")
+        self.set_header('bili', "daobidao")
+        self.set_header('Access-Control-Expose-Headers', "xxoo,bili")
+
+        self.set_cookie('kkkkk', 'vvvvv');
+
+        self.write('{"status": true, "data": "seven"}')
+
+    def options(self, *args, **kwargs):
+        self.set_header('Access-Control-Allow-Origin', "http://www.xxx.com")
+        self.set_header('Access-Control-Allow-Headers', "k1,k2")
+        self.set_header('Access-Control-Allow-Methods', "PUT,DELETE")
+        self.set_header('Access-Control-Max-Age', 10)

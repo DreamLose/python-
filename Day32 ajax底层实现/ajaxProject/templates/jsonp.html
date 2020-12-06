@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="content">
+    <input type="button" value="本地发送" onclick="submitJsonp();">
+    <input type="button" value="跨站发送自定义" onclick="submitJsonp1();">
+    <input type="button" value="跨站发送jQuery" onclick="submitJsonp2();">
+</div>
+<script src="/static/jquery-3.5.1.js">
+
+</script>
+
+
+<script>
+    function submitJsonp() {
+        $.ajax({
+            url:'/ajax3.html',
+            type:'GET',
+            data:{nid:2},
+            success:function (arg) {
+
+            }
+
+        })
+    }
+
+    function submitJsonp1() {
+        var tag = document.createElement('script')
+        {#跨站地址#}
+{#        跨站地址返回的数据包裹一层函数名 比如  ('返回的数据)#}
+        tag.src = 'http://127.0.0.1:9000/ceshi.html'
+        {#添加#}
+        document.head.appendChild(tag)
+        {#删除#}
+        document.head.removeChild(tag)
+
+    }
+
+    function test(arg){
+        {#跨站返回的数据#}
+        console.log(arg)
+    }
+
+    {#jsonp 只能发送get请求#}
+    function submitJsonp2(){
+        $.ajax({
+            url:'http://www.jxntv.cn/data/jmd-jxtv2.html?callback=list&_=1454376870403',
+             type: 'GET',
+            dataType:'jsonp',
+
+            jsonp:'callback',
+            {#返回时包裹的函数名称#}
+            jsonpCallback:'func',
+
+        })
+    }
+    {#跨站回调函数#}
+    function list(arg){
+        console.log(arg)
+    }
+</script>
+</body>
+</html>
