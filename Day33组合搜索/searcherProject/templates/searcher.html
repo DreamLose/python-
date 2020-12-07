@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+{#    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.css">#}
+    <style>
+        a{
+            display: inline-block;
+            {#height: 20px;#}
+            border: 1px solid lightgray;
+            border-radius: 2px;
+            font-size: 15px;
+        }
+        a.active {
+            background-color: blue;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<h1>筛选</h1>
+<div>
+    <a class="{% if 0 == kwargs.direction_id %}
+            active
+        {% endif %} " href="searcher-0-{{ kwargs.classification_id }}-{{ kwargs.level_id }}.html">全部</a>
+    {% for item in direction_list %}
+        <a class="{% if item.id == kwargs.direction_id %}
+            active
+        {% endif %} " href="searcher-{{ item.id }}-{{ kwargs.classification_id }}-{{ kwargs.level_id }}.html">{{ item.name }}</a>
+    {% endfor %}
+    
+</div>
+
+<div>
+ <a class="{% if 0 == kwargs.classification_id %}
+            active
+        {% endif %} " href="searcher-{{ kwargs.direction_id }}-0-{{ kwargs.level_id }}.html">全部</a>
+    {% for item in class_list %}
+        <a class="{% if item.id == kwargs.classification_id %}
+            active
+        {% endif %} " href="searcher-{{ kwargs.direction_id }}-{{ item.id }}-{{ kwargs.level_id }}.html">{{ item.name }}</a>
+
+    {% endfor %}
+
+
+</div>
+<div>
+<a class="{% if 0 == kwargs.level_id %}
+            active
+        {% endif %} " href="searcher-{{ kwargs.direction_id }}-{{  kwargs.classification_id }}-0.html">全部</a>
+    {% for item in level_list %}
+         <a class="{% if item.id == kwargs.level_id %}
+            active
+        {% endif %} " href="searcher-{{ kwargs.direction_id }}-{{  kwargs.classification_id }}-{{ item.id }}.html">{{ item.name }}</a>
+    {% endfor %}
+
+
+</div>
+
+
+<h1>结果</h1>
+
+<div>
+    {% for video in video_list %}
+    <div>{{ video.title }}</div>
+    {% endfor %}
+
+</div>
+
+</body>
+</html>

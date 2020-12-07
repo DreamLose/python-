@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .w {
+            width: 1000px;
+            margin: 0 auto;
+        }
+
+        .item {
+            width: 25%;
+            float: left;
+
+        }
+
+        .item img {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<div>姑妈柠檬</div>
+<div class="w" id="container">
+    {% for img in img_list %}
+        <img src="{{ img.src }}">
+        <div>{{ img.title }}</div>
+    {% endfor %}
+    <div class="item">
+
+
+    </div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+
+</div>
+<script src="/static/jquery-3.5.1.js"></script>
+<script>
+    $(function () {
+        var obj = new scrollImg()
+        obj.initImg()
+        obj.scrollEvent()
+    })
+
+
+    function scrollImg() {
+        this.nid = 0
+        this.lastPosition = 3
+        this.initImg = function () {
+            {#注意这里的this#}
+            var that = this
+
+            $.ajax({
+                url: '/get_imgs.html',
+                type: 'GET',
+                data: {nid: that.nid},
+                dataType: 'JSON',
+                success: function (arg) {
+                    if (arg.status) {
+                        var img_list = arg.data
+                        $.each(img_list, function (index, v) {
+                            {#console.log(index)#}
+
+                            var eqv = (index + that.lastPosition + 1) % 4
+                            console.log(eqv)
+                            var tag = document.createElement('img')
+                            tag.src = v.src
+                            {#获取div标签添加img标签#}
+                            $('#container').children().eq(eqv).append(tag)
+                            {#当循环到最后一个的时候更新NID#}
+                            if (index + 1 == img_list.length) {
+                                that.nid = v.id
+                                that.lastPosition = eqv
+                            }
+                        })
+                    }
+                }
+            })
+        }
+        {#    当滚轮达到最底部时候,执行initImge#}
+        this.scrollEvent = function () {
+            var that = this
+            $(window).scroll(function () {
+                {#    判断到达最底部#}
+                //文档高度  -body被撑了多高
+                var docHeight = $(document).height()
+
+                //窗口高度  --
+                var winHeight = $(window).height()
+
+                //滚动条可滑动的高度
+                var scrollTop = $(window).scrollTop()
+
+                if (winHeight + scrollTop == docHeight) {
+                    console.log(1)
+                    that.initImg()
+                }
+            })
+        }
+    }
+
+
+</script>
+</body>
+</html>
